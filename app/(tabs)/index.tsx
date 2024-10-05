@@ -1,3 +1,4 @@
+import AddExpenseButton from "@/components/AddExpenseButton";
 import { Text, View } from "react-native";
 
 export default function Index() {
@@ -10,6 +11,7 @@ export default function Index() {
       }}
     >
       <Text>This is a Home screen to to show all stats and other details</Text>
+      <AddExpenseButton />
     </View>
   );
 }
