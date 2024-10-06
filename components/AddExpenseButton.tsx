@@ -3,9 +3,14 @@ import React from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { colorBlue } from "@/constants/Colors";
 import { useNavigation } from "expo-router";
+import { NavigationProp } from "@react-navigation/native";
+
+type RootStackParamList = {
+  AddExpense: undefined;
+};
 
 const AddExpenseButton = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList, "AddExpense">>();
 
   return (
     <View style={styles.container}>
