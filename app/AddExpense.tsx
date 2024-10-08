@@ -1,14 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import React, { useState } from "react";
+import { Formik, setFieldValue } from "formik";
+import * as Yup from "yup";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Dropdown } from "react-native-element-dropdown";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -18,130 +11,223 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { colorBlue, darkGray } from "@/constants/Colors";
 
-const AddExpense = () => {
-  const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
-  const [items, setItems] = useState([
+/**
+ * AddExpense component
+ *
+ * This component is used to add new expense to the database.
+ * It takes care of form validation, error handling and
+ * submitting the form to the server.
+ *
+ * @returns {JSX.Element} AddExpense component
+ */
+const AddExpense = (): JSX.Element => {
+  const [isFocus, setIsFocus] = useState<boolean>(false);
+  const [items, setItems] = useState<{ label: string; value: string }[]>([
     { label: "Apple", value: "apple" },
     { label: "Banana", value: "banana" },
   ]);
-
-  const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
-
-  const onChange = (event, selectedDate) => {
-    console.log(event);
-    const currentDate = selectedDate;
-    setShow(false);
-    setDate(currentDate);
+  const initialValues = {
+    amount: "",
+    category: "",
+    date: new Date(),
+    note: "",
   };
+
+  const addExpenseSchema = Yup.object().shape({
+    amount: Yup.number()
+      .required("Amount is Required!!")
+      .min(1, "Amount cannot be zero")
+      .positive("Amount must be positive")
+      .integer(),
+    category: Yup.string().required(),
+    date: Yup.date().required(),
+    note: Yup.string(),
+  });
+
+  const [show, setShow] = useState<boolean>(false);
+
+  /**
+   * On change handler for date picker
+   *
+   * @param {Date | null} selectedDate - selected date
+   * @param {typeof setFieldValue} callable - function to call to update formik
+   * @param {string} keyToUpdate - key to update in formik
+   */
+  const onDateSelect = (
+    selectedDate: Date | undefined,
+    callable: typeof setFieldValue,
+    keyToUpdate: string
+  ): void => {
+    if (selectedDate === undefined) {
+      return;
+    }
+    try {
+      setShow(false);
+      callable(keyToUpdate, selectedDate);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  /**
+   * Render error message
+   *
+   * @param {boolean | undefined} touchStatus - whether the field has been touched
+   * @param {string | undefined} errorStatus - error message
+   */
+  const renderErrorMessage = (
+    touchStatus: boolean | undefined,
+    errorStatus: string | undefined
+  ): JSX.Element | null => {
+    try {
+      return (
+        <View>
+          {touchStatus && errorStatus ? (
+            <Text style={styles.errorText}>{errorStatus} </Text>
+          ) : null}
+        </View>
+      );
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const onAddExpenseSave = (values: typeof initialValues) =>
+    console.log("Form Values: ", values);
 
   return (
     <SafeAreaView>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        // style={styles.container}
+      <Formik
+        initialValues={initialValues}
+        validationSchema={addExpenseSchema}
+        onSubmit={(values) => onAddExpenseSave(values)}
       >
-        <View style={styles.header}>
-          <AntDesign name="close" size={24} color="black" />
-          <Text style={styles.headerText}>Add Transaction</Text>
-          <Pressable onPress={() => console.log("SaveButton is Clicked")}>
-            <Text style={styles.saveButtonText}>Save</Text>
-          </Pressable>
-        </View>
-        {/* Form Container */}
-        <View style={styles.formContainer}>
-          {/* Amount Input */}
-          <View style={styles.amountContainer}>
-            <Text style={{ fontWeight: "regular", fontSize: 23 }}>Amount</Text>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <FontAwesome name="dollar" style={styles.rightIconStyle} />
-              <TextInput
-                style={styles.amountInput}
-                placeholder="Amount"
-                keyboardType="numeric"
-              />
+        {({
+          handleChange,
+          setFieldValue,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <>
+            <View style={styles.header}>
+              <AntDesign name="close" size={24} color="black" />
+              <Text style={styles.headerText}>Add Transaction</Text>
+              <Pressable onPress={handleSubmit}>
+                <Text style={styles.saveButtonText}>Save</Text>
+              </Pressable>
             </View>
-          </View>
-          {/* Category Dropdown */}
-          <View style={styles.dropdownContainer}>
-            <Dropdown
-              style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.leftIconStyle}
-              data={items}
-              search
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? "Select Category" : "..."}
-              searchPlaceholder="Search..."
-              value={value}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={(item) => {
-                setValue(item.value);
-                setIsFocus(false);
-              }}
-              renderRightIcon={() => (
+            {/* Form Container */}
+            <View style={styles.formContainer}>
+              {/* Amount Input */}
+              <View style={styles.amountContainer}>
+                <Text style={{ fontWeight: "regular", fontSize: 23 }}>
+                  Amount
+                </Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <FontAwesome name="dollar" style={styles.rightIconStyle} />
+                  <TextInput
+                    style={styles.amountInput}
+                    placeholder="Amount"
+                    keyboardType="numeric"
+                    value={values.amount}
+                    onChangeText={handleChange("amount")}
+                  />
+                </View>
+              </View>
+              {renderErrorMessage(touched.amount, errors.amount)}
+              {/* Category Dropdown */}
+              <View style={styles.dropdownContainer}>
+                <Dropdown
+                  style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  inputSearchStyle={styles.inputSearchStyle}
+                  iconStyle={styles.leftIconStyle}
+                  data={items}
+                  search
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={!isFocus ? "Select Category" : "..."}
+                  searchPlaceholder="Search..."
+                  value={values.category}
+                  onFocus={() => setIsFocus(true)}
+                  onBlur={() => setIsFocus(false)}
+                  onChange={(item: { label: string; value: string }) => {
+                    setFieldValue("category", item.value);
+                    setIsFocus(false);
+                  }}
+                  renderRightIcon={() => (
+                    <MaterialCommunityIcons
+                      name="greater-than"
+                      size={24}
+                      style={styles.rightIconStyle}
+                    />
+                  )}
+                  renderLeftIcon={() => (
+                    <MaterialIcons
+                      style={styles.leftIconStyle}
+                      name="category"
+                    />
+                  )}
+                  containerStyle={styles.dropdownModalStyle}
+                />
+                {renderErrorMessage(touched.category, errors.category)}
+              </View>
+              {/* Description Input */}
+              <View style={styles.inputContainer}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <MaterialIcons
+                    name="edit-note"
+                    style={styles.leftIconStyle}
+                  />
+                  <TextInput
+                    style={styles.amountInput}
+                    placeholderTextColor={darkGray}
+                    placeholder="Add Note"
+                  />
+                </View>
                 <MaterialCommunityIcons
                   name="greater-than"
-                  size={24}
                   style={styles.rightIconStyle}
                 />
-              )}
-              renderLeftIcon={() => (
-                <MaterialIcons style={styles.leftIconStyle} name="category" />
-              )}
-              containerStyle={styles.dropdownModalStyle}
-            />
-          </View>
-          {/* Description Input */}
-          <View style={styles.inputContainer}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <MaterialIcons name="edit-note" style={styles.leftIconStyle} />
-              <TextInput
-                style={styles.amountInput}
-                placeholderTextColor={darkGray}
-                placeholder="Add Note"
-              />
-            </View>
-            <MaterialCommunityIcons
-              name="greater-than"
-              style={styles.rightIconStyle}
-            />
-          </View>
-          <View>
-            <Pressable
-              onPress={() => setShow(!show)}
-              style={styles.inputContainer}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <AntDesign name="calendar" style={styles.leftIconStyle} />
-                <Text>
-                  {date?.toLocaleDateString()
-                    ? date?.toLocaleDateString()
-                    : "Select Date"}
-                </Text>
               </View>
-              <MaterialCommunityIcons
-                name="greater-than"
-                style={styles.rightIconStyle}
-              />
-            </Pressable>
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                is24Hour={true}
-                onChange={onChange}
-              />
-            )}
-          </View>
-        </View>
-      </KeyboardAvoidingView>
+              <View>
+                <Pressable
+                  onPress={() => setShow(!show)}
+                  style={styles.inputContainer}
+                >
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <AntDesign name="calendar" style={styles.leftIconStyle} />
+                    <Text>
+                      {values.date?.toLocaleDateString()
+                        ? values.date?.toLocaleDateString()
+                        : "Select Date"}
+                    </Text>
+                  </View>
+                  <MaterialCommunityIcons
+                    name="greater-than"
+                    style={styles.rightIconStyle}
+                  />
+                </Pressable>
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={values.date || new Date()}
+                    is24Hour={true}
+                    onChange={(_, selectedDate) =>
+                      onDateSelect(selectedDate, setFieldValue, "date")
+                    }
+                  />
+                )}
+              </View>
+            </View>
+          </>
+        )}
+      </Formik>
     </SafeAreaView>
   );
 };
@@ -240,5 +326,11 @@ const styles = StyleSheet.create({
   rightIconStyle: {
     color: darkGray,
     fontSize: 18,
+  },
+  errorText: {
+    color: "crimson",
+    padding: 10,
+    fontSize: 15,
+    fontWeight: "semibold",
   },
 });
