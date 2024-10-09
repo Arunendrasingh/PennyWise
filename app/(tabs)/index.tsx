@@ -36,7 +36,7 @@ export default function Index(): JSX.Element {
         {/* Total Expense Container */}
         <View style={styles.budgetContainer}>
           <AnimatedCircularProgress
-            size={180}
+            size={240}
             width={15}
             fill={50}
             lineCap="square"
@@ -49,11 +49,13 @@ export default function Index(): JSX.Element {
             {() => (
               <View style={styles.budgetTextContainer}>
                 <Text style={styles.budgetHeaderText}>Budged Used</Text>
-                <Text style={styles.budgetText}>10000$</Text>
-                <Text style={styles.budgetText}>/</Text>
-                <Text style={[styles.budgetText, styles.totalBudget]}>
-                  total budget$
-                </Text>
+                <View style={styles.budgetUsedContainer}>
+                  <Text style={[styles.budgetText, styles.expenseBudget]}>
+                    $ 40000
+                  </Text>
+                  <Text style={styles.budgetText}>/</Text>
+                  <Text style={styles.budgetText}>$ 1000000</Text>
+                </View>
               </View>
             )}
           </AnimatedCircularProgress>
@@ -95,7 +97,7 @@ export default function Index(): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: lightGray,
+    // backgroundColor: lightGray,
     height: "100%",
   },
   // Profile Container
@@ -104,8 +106,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    marginBottom: 20,
-    paddingHorizontal: 20,
+    marginVertical: 20,
+    paddingHorizontal: 10,
   },
   profileImage: {
     width: 50,
@@ -156,16 +158,25 @@ const styles = StyleSheet.create({
   budgetContainer: {
     alignItems: "center",
     justifyContent: "center",
+    marginVertical: 40,
   },
   budgetHeaderText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 22,
+    // fontWeight: "",
+    color: "gray",
   },
   budgetText: {
     fontSize: 16,
+    color: "gray",
   },
-  totalBudget: {
+  expenseBudget: {
     fontWeight: "bold",
+    // fontSize: 19,
+    color: "black",
+  },
+  budgetUsedContainer: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   // Income and Expense Container
   totalIncomeExpenseContainer: {
