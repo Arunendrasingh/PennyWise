@@ -1,15 +1,18 @@
 import AddExpenseButton from "@/components/AddExpenseButton";
 import { Text, View, StyleSheet, Image } from "react-native";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import * as Yup from "yup";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import {} from "";
+
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
+import { colorBlue, lightGray } from "@/constants/Colors";
+
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function Index(): JSX.Element {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        {/* <View> */}
+        {/* Profile Container */}
         <View style={styles.profileContainer}>
           <View style={styles.profileImageContainer}>
             <Image
@@ -30,46 +33,60 @@ export default function Index(): JSX.Element {
             </View>
           </View>
         </View>
-        {/* </View> */}
-        <View>
-          <Text>
-            This view is for a card: which contains the total sum of total
-            expenses by you.
-          </Text>
+        {/* Total Expense Container */}
+        <View style={styles.budgetContainer}>
+          <AnimatedCircularProgress
+            size={180}
+            width={15}
+            fill={50}
+            lineCap="square"
+            arcSweepAngle={270}
+            rotation={225}
+            tintColor={colorBlue}
+            onAnimationComplete={() => console.log("onAnimationComplete")}
+            backgroundColor="#3d5875"
+          >
+            {() => (
+              <View style={styles.budgetTextContainer}>
+                <Text style={styles.budgetHeaderText}>Budged Used</Text>
+                <Text style={styles.budgetText}>10000$</Text>
+                <Text style={styles.budgetText}>/</Text>
+                <Text style={[styles.budgetText, styles.totalBudget]}>
+                  total budget$
+                </Text>
+              </View>
+            )}
+          </AnimatedCircularProgress>
         </View>
-        <View>
-          <Text>
-            This view is for a card: which contains the total sum of total
-            expenses by you.
-          </Text>
+        {/* Total Income and Expense Container */}
+        <View style={styles.totalIncomeExpenseContainer}>
+          <View style={styles.incomeExpenseContainer}>
+            <View style={styles.amountCardContainer}>
+              <View style={styles.incomeContainerIcon}>
+                <MaterialIcons name="trending-up" size={24} color="green" />
+              </View>
+              <View style={styles.incomeExpenseContainerText}>
+                <Text style={[styles.amountCardTextHeader, styles.incomeColor]}>
+                  Income
+                </Text>
+                <Text style={styles.amountText}>$1000</Text>
+              </View>
+            </View>
+            <View style={styles.amountCardContainer}>
+              <View style={styles.expenseContainerIcon}>
+                <MaterialIcons name="trending-down" size={24} color="red" />
+              </View>
+              <View style={styles.incomeExpenseContainerText}>
+                <Text
+                  style={[styles.amountCardTextHeader, styles.expenseColor]}
+                >
+                  Expense
+                </Text>
+                <Text style={styles.amountText}>$ 1000</Text>
+              </View>
+            </View>
+          </View>
         </View>
-
-        <View>
-          <Text>This View is for Statistics and Graph</Text>
-        </View>
-
-        <View>
-          <Text>
-            This View contains at-least 5 Category and also contains a link go
-            to Category page, where user can View all Category details and also
-            can added Category.
-          </Text>
-        </View>
-
-        <View>
-          <Text>
-            This View contains at-least 5 Expense and also contains a link go to
-            Expense page, where user can View all Expense details and also can
-            added Expense.
-          </Text>
-        </View>
-        <Text>
-          This is a Home screen to to show all stats and other details
-        </Text>
-
-        <Text>Edit app/(tabs)/index.tsx to edit this screen.</Text>
-
-        <Text>Now add other details like: Expense and other things</Text>
         <AddExpenseButton />
       </View>
     </SafeAreaView>
@@ -78,9 +95,10 @@ export default function Index(): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    // marginTop: 5,
+    backgroundColor: lightGray,
+    height: "100%",
   },
+  // Profile Container
   profileContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -113,6 +131,7 @@ const styles = StyleSheet.create({
   bellContainer: {
     position: "relative",
   },
+  // Badge Container
   badge: {
     position: "absolute",
     right: 0,
@@ -128,5 +147,86 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 3,
     fontWeight: "bold",
+  },
+  // Budget Container
+  budgetTextContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  budgetContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  budgetHeaderText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  budgetText: {
+    fontSize: 16,
+  },
+  totalBudget: {
+    fontWeight: "bold",
+  },
+  // Income and Expense Container
+  totalIncomeExpenseContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 20,
+    width: "100%",
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  incomeExpenseContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    marginBottom: 20,
+  },
+  amountCardContainer: {
+    backgroundColor: "white",
+    height: 100,
+    width: "48%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+  },
+  amountCardTextHeader: {
+    fontWeight: "semibold",
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  incomeColor: {
+    color: "green",
+  },
+  expenseColor: {
+    color: "red",
+  },
+  incomeContainerIcon: {
+    backgroundColor: "#A5FEC8",
+    padding: 20,
+    borderRadius: 100,
+  },
+  expenseContainerIcon: {
+    backgroundColor: "#FEBFC0",
+    padding: 20,
+    borderRadius: 100,
+  },
+  amountText: {
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  incomeExpenseContainerText: {
+    alignItems: "center",
+    paddingHorizontal: "auto",
+  },
+  // Statistics Container
+  statisticsContainer: {
+    backgroundColor: "green",
+    height: 100,
+    width: 100,
   },
 });

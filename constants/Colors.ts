@@ -27,3 +27,4 @@ export const Colors = {
 
 export const colorBlue = "#0666EB";
 export const darkGray = "#919191";
+export const lightGray = "#d9d9d9";
