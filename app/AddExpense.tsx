@@ -10,6 +10,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { colorBlue, darkGray } from "@/constants/Colors";
+import { createLocalUser, getLocalUser } from "@/database/utils/userManager";
 
 /**
  * AddExpense component
@@ -93,8 +94,20 @@ const AddExpense = (): JSX.Element => {
     }
   };
 
-  const onAddExpenseSave = (values: typeof initialValues) =>
+  const onAddExpenseSave =  async(values: typeof initialValues) => {
     console.log("Form Values: ", values);
+
+    let getUser = await getLocalUser();
+
+    if (getUser.length == 0){
+      let newUser = await createLocalUser("Admin", "admin@gmail.com")
+
+
+      console.log("Newly Created User: ", newUser)
+    }
+
+    console.log("Users are: ", getUser[0].collections)
+  };
 
   return (
     <SafeAreaView>

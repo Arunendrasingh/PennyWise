@@ -2,6 +2,8 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "experimentalDecorators": true, // Enable decorators
+    "emitDecoratorMetadata": true, // Enable metadata for decorators
     "paths": {
       "@/*": [
         "./*"
