@@ -2,31 +2,14 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   Image,
   Pressable,
   StyleSheet,
 } from "react-native";
-import { Formik, FormikHandlers } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
-
-interface ProfileValues {
-  fullName: string;
-  phoneNumber: string;
-  email: string;
-  location: string;
-}
-
-interface RenderInputProps {
-  label: string;
-  fieldName: keyof ProfileValues;
-  handleChange: FormikHandlers["handleChange"];
-  handleBlur: FormikHandlers["handleBlur"];
-  value: string;
-  error?: string;
-  touched?: boolean;
-  keyboardType?: "default" | "phone-pad" | "email-address";
-}
+import RenderInputBox from "@/components/RenderInput";
+import { ProfileValues } from "@/config/types";
 
 const ProfileUpdateScreen: React.FC = () => {
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
@@ -77,7 +60,8 @@ const ProfileUpdateScreen: React.FC = () => {
               style={styles.profileImage}
             />
             <Text style={styles.profileName}>
-              {values.fullName || "Profile Name"}
+              {/* {values.fullName || "Profile Name"} */}
+              This is text
             </Text>
             <Pressable
               onPress={() => {
@@ -90,44 +74,52 @@ const ProfileUpdateScreen: React.FC = () => {
 
           {/* Section 2: Profile Details */}
           <View style={styles.section2}>
-            {renderInput({
-              label: "Full Name",
-              fieldName: "fullName",
-              handleChange,
-              handleBlur,
-              value: values.fullName,
-              error: errors.fullName,
-              touched: touched.fullName,
-            })}
-            {renderInput({
-              label: "Phone Number",
-              fieldName: "phoneNumber",
-              handleChange,
-              handleBlur,
-              value: values.phoneNumber,
-              error: errors.phoneNumber,
-              touched: touched.phoneNumber,
-              keyboardType: "phone-pad",
-            })}
-            {renderInput({
-              label: "Email",
-              fieldName: "email",
-              handleChange,
-              handleBlur,
-              value: values.email,
-              error: errors.email,
-              touched: touched.email,
-              keyboardType: "email-address",
-            })}
-            {renderInput({
-              label: "Location",
-              fieldName: "location",
-              handleChange,
-              handleBlur,
-              value: values.location,
-              error: errors.location,
-              touched: touched.location,
-            })}
+            {
+              <RenderInputBox
+                label="Full Name"
+                fieldName="fullName"
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                value={values.fullName}
+                error={errors.fullName}
+                touched={touched.fullName}
+              />
+            }
+            {
+              <RenderInputBox
+                label="Phone Number"
+                fieldName="phoneNumber"
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                value={values.phoneNumber}
+                error={errors.phoneNumber}
+                touched={touched.phoneNumber}
+                keyboardType="phone-pad"
+              />
+            }
+            {
+              <RenderInputBox
+                label="Email"
+                fieldName="email"
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                value={values.email}
+                error={errors.email}
+                touched={touched.email}
+                keyboardType="email-address"
+              />
+            }
+            {
+              <RenderInputBox
+                label="Location"
+                fieldName="location"
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                value={values.location}
+                error={errors.location}
+                touched={touched.location}
+              />
+            }
           </View>
 
           {/* Section 3: Save Button */}
@@ -145,29 +137,29 @@ const ProfileUpdateScreen: React.FC = () => {
   );
 };
 
-const renderInput = ({
-  label,
-  fieldName,
-  handleChange,
-  handleBlur,
-  value,
-  error,
-  touched,
-  keyboardType = "default",
-}: RenderInputProps) => (
-  <>
-    <Text style={styles.optionLabel}>{label}</Text>
-    <TextInput
-      style={styles.inputBox}
-      placeholder={`Enter ${label.toLowerCase()}`}
-      value={value}
-      onChangeText={handleChange(fieldName)}
-      onBlur={handleBlur(fieldName)}
-      keyboardType={keyboardType}
-    />
-    {error && touched && <Text style={styles.errorText}>{error}</Text>}
-  </>
-);
+// const renderInput = ({
+//   label,
+//   fieldName,
+//   handleChange,
+//   handleBlur,
+//   value,
+//   error,
+//   touched,
+//   keyboardType = "default",
+// }: RenderInputProps) => (
+//   <>
+//     <Text style={styles.optionLabel}>{label}</Text>
+//     <TextInput
+//       style={styles.inputBox}
+//       placeholder={`Enter ${label.toLowerCase()}`}
+//       value={value}
+//       onChangeText={handleChange(fieldName)}
+//       onBlur={handleBlur(fieldName)}
+//       keyboardType={keyboardType}
+//     />
+//     {error && touched && <Text style={styles.errorText}>{error}</Text>}
+//   </>
+// );
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: "#fff" },
