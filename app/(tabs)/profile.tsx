@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons"; // Add your icon package
+import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"; // Add your icon package
 import { darkGray, colorBlue } from "@/constants/Colors";
 import { Link } from "expo-router";
 
@@ -35,32 +35,86 @@ export default function index(): JSX.Element {
       <View style={styles.settingsSection}>
         <Text style={styles.sectionHeader}>Personal Settings</Text>
         <ScrollView contentContainerStyle={styles.optionList}>
-          <OptionRow icon="language" label="Language" />
-          <OptionRow icon="money" label="Currency" />
-          <OptionRow icon="list-alt" label="Category" />
-          <OptionRow icon="bullseye" label="Goals" />
-          <OptionRow icon="bell" label="Notification" />
-          <OptionRow icon="cogs" label="Settings" />
-          <OptionRow icon="lock" label="Privacy Settings" />
-          <OptionRow icon="mobile" label="Session Management" />
-          <OptionRow icon="key" label="Change Password" />
-          <OptionRow icon="palette" label="Dark Mode" />
-          <OptionRow icon="question-circle" label="FAQ" />
-          <OptionRow icon="support" label="Contact Support" />
-          <OptionRow icon="bug" label="Report a Problem" />
-          <OptionRow icon="credit-card" label="Payment Methods" />
-          <OptionRow icon="info-circle" label="About" />
-          <OptionRow icon="download" label="Download Data" />
-          <OptionRow icon="trash-alt" label="Clear Cache" />
+          <OptionRow
+            icon={<FontAwesome name="language" size={20} color={colorBlue} />}
+            label="Language"
+          />
+          <OptionRow
+            icon={<FontAwesome name="money" size={20} color={colorBlue} />}
+            label="Currency"
+          />
+          <OptionRow
+            icon={<FontAwesome name="list-alt" size={20} color={colorBlue} />}
+            label="Category"
+          />
+          <OptionRow
+            icon={<FontAwesome name="bullseye" size={20} color={colorBlue} />}
+            label="Goals"
+          />
+          <OptionRow
+            icon={<FontAwesome name="bell" size={20} color={colorBlue} />}
+            label="Notification"
+          />
+          <OptionRow
+            icon={<FontAwesome name="cogs" size={20} color={colorBlue} />}
+            label="Settings"
+          />
+          <OptionRow
+            icon={<FontAwesome name="lock" size={20} color={colorBlue} />}
+            label="Privacy Settings"
+          />
+          <OptionRow
+            icon={<FontAwesome name="mobile" size={20} color={colorBlue} />}
+            label="Session Management"
+          />
+          <OptionRow
+            icon={<FontAwesome name="key" size={20} color={colorBlue} />}
+            label="Change Password"
+          />
+          <OptionRow
+            icon={<FontAwesome name="language" size={20} color={colorBlue} />}
+            label="Dark/Light Theme"
+          />
+          <OptionRow
+            icon={
+              <FontAwesome name="question-circle" size={20} color={colorBlue} />
+            }
+            label="FAQ"
+          />
+          <OptionRow
+            icon={<FontAwesome name="support" size={20} color={colorBlue} />}
+            label="Contact Support"
+          />
+          <OptionRow
+            icon={<FontAwesome name="bug" size={20} color={colorBlue} />}
+            label="Report a Problem"
+          />
+          {/* <OptionRow icon="credit-card" label="Payment Methods" /> */}
+          <OptionRow
+            icon={
+              <FontAwesome name="info-circle" size={20} color={colorBlue} />
+            }
+            label="About"
+          />
+          <OptionRow
+            icon={
+              <FontAwesome name="download" size={20} color={colorBlue} />
+            }
+            label="Download Data"
+          />
+          <OptionRow
+            icon={<MaterialIcons name="clear" size={20} color={colorBlue} />}
+            label="Clear Cache"
+          />
         </ScrollView>
       </View>
     </View>
   );
 }
 
-const OptionRow = ({ icon, label }: { icon: string; label: string }) => (
+const OptionRow = ({ icon, label }: { icon: JSX.Element; label: string }) => (
   <TouchableOpacity style={styles.optionRow}>
-    <FontAwesome name={icon} size={20} color={colorBlue} />
+    {icon}
     <Text style={styles.optionText}>{label}</Text>
     <FontAwesome name="chevron-right" size={20} color={darkGray} />
   </TouchableOpacity>
