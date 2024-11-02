@@ -7,11 +7,11 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { colorBlue, lightGray } from "@/constants/Colors";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { useUser } from "@/hooks/useProfile";
+// import { useUser } from "@/hooks/useProfile";
 
 export default function Index(): JSX.Element {
 
-  const profile = useUser()
+  // const profile = useUser()
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -19,7 +19,7 @@ export default function Index(): JSX.Element {
         <View style={styles.profileContainer}>
           <View style={styles.profileImageContainer}>
             <Image
-              source={require("@/assets/images/profile/profile.jpg")}
+              source={require("@/assets/images/profile/profile.png")}
               style={styles.profileImage}
             />
             <View>

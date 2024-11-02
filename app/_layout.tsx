@@ -5,6 +5,10 @@ export default function Layout() {
     <Stack id="ad">
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="AddExpense" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="profile/editProfile"
+        options={{ headerTitle: "Edit Profile" }}
+      />
     </Stack>
   );
 }

@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons"; // Add your icon package
 import { darkGray, colorBlue } from "@/constants/Colors";
+import { Link } from "expo-router";
 
-const Profile = () => {
+export default function index(): JSX.Element {
   return (
     <View style={styles.container}>
       {/* Top Part - Profile Header */}
@@ -18,14 +19,14 @@ const Profile = () => {
         {/* <Text style={styles.headerText}>Profile</Text> */}
         <View style={styles.imageSection}>
           <Image
-            source={{
-              uri: "https://i.pinimg.com/736x/7f/5a/93/7f5a93164763d62faec8fa300dc28b7e.jpg",
-            }} // Replace with your image URL or use local images
+            source={require("@/assets/images/profile/profile.png")}
             style={styles.profileImage}
           />
           <Text style={styles.profileName}>John Doe</Text>
           <TouchableOpacity>
-            <Text style={styles.editProfileText}>Edit</Text>
+            <Link href="/profile/editProfile">
+              <Text style={styles.editProfileText}>Edit</Text>
+            </Link>
           </TouchableOpacity>
         </View>
       </View>
@@ -55,7 +56,7 @@ const Profile = () => {
       </View>
     </View>
   );
-};
+}
 
 const OptionRow = ({ icon, label }: { icon: string; label: string }) => (
   <TouchableOpacity style={styles.optionRow}>
@@ -90,9 +91,9 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderWidth: 1,
-    borderColor: "red",
     borderRadius: 40,
     marginBottom: 10,
+    borderColor: "white",
   },
   profileName: {
     fontSize: 18,
@@ -136,5 +137,3 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
 });
-
-export default Profile;
