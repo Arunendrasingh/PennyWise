@@ -1,10 +1,10 @@
 import { FormikHandlers } from "formik";
 
 export interface ProfileValues {
-    fullName: string;
+    name: string;
     phoneNumber: string;
     email: string;
-    location: string;
+    location?: string;
   }
 
 
@@ -16,5 +16,6 @@ export interface RenderInputProps {
   value: string;
   error?: string;
   touched?: boolean;
-  keyboardType?: "default" | "phone-pad" | "email-address";
+  keyboardType?: "default" | "phone-pad" | "email-address" | "number-pad";
+  editable?: boolean;
 }

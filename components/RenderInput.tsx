@@ -10,20 +10,24 @@ const RenderInputBox = ({
   error,
   touched,
   keyboardType = "default",
-}: RenderInputProps) => (
-  <>
-    <Text style={styles.optionLabel}>{label}</Text>
-    <TextInput
-      style={styles.inputBox}
-      placeholder={`Enter ${label.toLowerCase()}`}
-      value={value}
-      onChangeText={handleChange(fieldName)}
-      onBlur={handleBlur(fieldName)}
-      keyboardType={keyboardType}
-    />
-    {error && touched && <Text style={styles.errorText}>{error}</Text>}
-  </>
-);
+  editable = true,
+}: RenderInputProps) => {
+  return (
+    <>
+      <Text style={styles.optionLabel}>{label}</Text>
+      <TextInput
+        style={styles.inputBox}
+        placeholder={`Enter ${label.toLowerCase()}`}
+        value={value}
+        onChangeText={handleChange(fieldName)}
+        onBlur={handleBlur(fieldName)}
+        keyboardType={keyboardType}
+        editable={editable}
+      />
+      {error && touched && <Text style={styles.errorText}>{error}</Text>}
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   optionLabel: { fontSize: 16, marginVertical: 8, color: "#333" },

@@ -2,34 +2,25 @@ import React from "react";
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"; // Add your icon package
+import {
+  FontAwesome,
+  MaterialIcons,
+} from "@expo/vector-icons"; // Add your icon package
 import { darkGray, colorBlue } from "@/constants/Colors";
-import { Link } from "expo-router";
+
+import ShowProfile from "@/components/profile/ShowProfile";
 
 export default function index(): JSX.Element {
+  
   return (
     <View style={styles.container}>
       {/* Top Part - Profile Header */}
-      <View style={styles.profileHeader}>
-        {/* <Text style={styles.headerText}>Profile</Text> */}
-        <View style={styles.imageSection}>
-          <Image
-            source={require("@/assets/images/profile/profile.png")}
-            style={styles.profileImage}
-          />
-          <Text style={styles.profileName}>John Doe</Text>
-          <TouchableOpacity>
-            <Link href="/profile/editProfile">
-              <Text style={styles.editProfileText}>Edit</Text>
-            </Link>
-          </TouchableOpacity>
-        </View>
-      </View>
+
+      <ShowProfile />
 
       {/* Bottom Part - Personal Settings */}
       <View style={styles.settingsSection}>
@@ -97,9 +88,7 @@ export default function index(): JSX.Element {
             label="About"
           />
           <OptionRow
-            icon={
-              <FontAwesome name="download" size={20} color={colorBlue} />
-            }
+            icon={<FontAwesome name="download" size={20} color={colorBlue} />}
             label="Download Data"
           />
           <OptionRow
@@ -125,39 +114,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f5f5f5",
     paddingHorizontal: 10,
-  },
-  profileHeader: {
-    flex: 0.3,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#f5f5f5",
-  },
-  headerText: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: darkGray,
-    marginBottom: 6,
-  },
-  imageSection: {
-    alignItems: "center",
-  },
-  profileImage: {
-    width: 80,
-    height: 80,
-    borderWidth: 1,
-    borderRadius: 40,
-    marginBottom: 10,
-    borderColor: "white",
-  },
-  profileName: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
-  },
-  editProfileText: {
-    color: colorBlue,
-    fontSize: 16,
-    marginTop: 5,
   },
   settingsSection: {
     flex: 0.7,

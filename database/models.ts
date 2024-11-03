@@ -8,6 +8,7 @@ import {
   field,
   readonly,
 } from "@nozbe/watermelondb/decorators";
+import { number } from "yup";
 
 export class User extends Model {
   static table = "users";
@@ -18,6 +19,7 @@ export class User extends Model {
 
   @text("name") name!: string;
   @text("email") email!: string;
+  @text("phone_number") phoneNumber!: string;
   @readonly @date("created_at") createdAt!: Date;
   @date("updated_at") updatedAt!: Date;
 }

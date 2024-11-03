@@ -1,23 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   Image,
   Pressable,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import RenderInputBox from "@/components/RenderInput";
 import { ProfileValues } from "@/config/types";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import {
+  createUser,
+  getUserById,
+  updateUser,
+} from "@/database/utils/userManager";
+import { User } from "@/database/models";
 
 const ProfileUpdateScreen: React.FC = () => {
+  const { userId }: { userId: string } = useLocalSearchParams();
+  const [user, setUser] = useState<User | null>(null);
+
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
 
   const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required("Full Name is required"),
+    name: Yup.string().required("Full Name is required"),
     phoneNumber: Yup.string()
-      .matches(/^\d]+$/, "Phone number must be digits")
+      .matches(/^\d+$/, "Phone Number must be digits")
+      .length(10, "Phone Number must be 10 digits")
       .required("Phone Number is required"),
     email: Yup.string()
       .email("Invalid email address")
@@ -25,16 +37,67 @@ const ProfileUpdateScreen: React.FC = () => {
     location: Yup.string().required("Location is required"),
   });
 
-  const handleSave = (values: ProfileValues) => {
-    console.log(values);
+  useEffect(() => {
+    // Fetch profile details from the database
+    // and set them in the state
+    async function loadUserWithId(userId: string) {
+      const user = await getUserById(userId);
+      if (user) {
+        console.log("User: ", user);
+        setUser(user);
+      }
+    }
+    if (userId) {
+      loadUserWithId(userId);
+    }
+  }, []);
+
+  // when userId is provided, then component must show the loading state
+  if (!user && userId) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  const handleSave = async (values: ProfileValues) => {
+    if (userId && user) {
+      const updatedUser = await updateUser(userId, values);
+      if (updatedUser) {
+        setUser(updatedUser);
+      }
+    } else {
+      const newUser = await createUser(
+        values.name,
+        values.email,
+        values.phoneNumber
+      );
+      if (newUser) {
+        setUser(newUser);
+      }
+    }
+  };
+
+  // saveButtonStatus
+  const enableDisableSaveButton = (values: ProfileValues): boolean => {
+    if (userId) {
+      return (
+        values.name === user?.name &&
+        values.phoneNumber === user?.phoneNumber &&
+        values.email === user?.email
+      );
+    }
+
+    return false;
   };
 
   return (
     <Formik
       initialValues={{
-        fullName: "",
-        phoneNumber: "",
-        email: "",
+        name: user ? user.name : "",
+        phoneNumber: user ? user.phoneNumber : "",
+        email: user ? user.email : "",
         location: "",
       }}
       validationSchema={validationSchema}
@@ -59,16 +122,13 @@ const ProfileUpdateScreen: React.FC = () => {
               }
               style={styles.profileImage}
             />
-            <Text style={styles.profileName}>
-              {/* {values.fullName || "Profile Name"} */}
-              This is text
-            </Text>
+
             <Pressable
               onPress={() => {
                 /* add image picker functionality here */
               }}
             >
-              <Text style={styles.editLink}>Edit Photo</Text>
+              <Text style={styles.editLink}>Edit Profile Photo</Text>
             </Pressable>
           </View>
 
@@ -77,12 +137,12 @@ const ProfileUpdateScreen: React.FC = () => {
             {
               <RenderInputBox
                 label="Full Name"
-                fieldName="fullName"
+                fieldName="name"
                 handleChange={handleChange}
                 handleBlur={handleBlur}
-                value={values.fullName}
-                error={errors.fullName}
-                touched={touched.fullName}
+                value={values.name}
+                error={errors.name}
+                touched={touched.name}
               />
             }
             {
@@ -94,7 +154,8 @@ const ProfileUpdateScreen: React.FC = () => {
                 value={values.phoneNumber}
                 error={errors.phoneNumber}
                 touched={touched.phoneNumber}
-                keyboardType="phone-pad"
+                keyboardType="number-pad"
+                editable={!user}
               />
             }
             {
@@ -107,6 +168,7 @@ const ProfileUpdateScreen: React.FC = () => {
                 error={errors.email}
                 touched={touched.email}
                 keyboardType="email-address"
+                editable={!user}
               />
             }
             {
@@ -124,42 +186,22 @@ const ProfileUpdateScreen: React.FC = () => {
 
           {/* Section 3: Save Button */}
           <View style={styles.section3}>
-            <Pressable
-              style={styles.saveButton}
+            <TouchableOpacity
+              style={[
+                styles.saveButton,
+                enableDisableSaveButton(values) && styles.disabledSaveButton,
+              ]}
               onPress={handleSubmit as () => void}
+              disabled={enableDisableSaveButton(values)}
             >
               <Text style={styles.saveButtonText}>Save</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       )}
     </Formik>
   );
 };
-
-// const renderInput = ({
-//   label,
-//   fieldName,
-//   handleChange,
-//   handleBlur,
-//   value,
-//   error,
-//   touched,
-//   keyboardType = "default",
-// }: RenderInputProps) => (
-//   <>
-//     <Text style={styles.optionLabel}>{label}</Text>
-//     <TextInput
-//       style={styles.inputBox}
-//       placeholder={`Enter ${label.toLowerCase()}`}
-//       value={value}
-//       onChangeText={handleChange(fieldName)}
-//       onBlur={handleBlur(fieldName)}
-//       keyboardType={keyboardType}
-//     />
-//     {error && touched && <Text style={styles.errorText}>{error}</Text>}
-//   </>
-// );
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: "#fff" },
@@ -184,6 +226,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 5,
+  },
+  disabledSaveButton: {
+    backgroundColor: "#064536EB",
   },
   saveButtonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
   errorText: { color: "red", fontSize: 12, marginTop: 4 },
