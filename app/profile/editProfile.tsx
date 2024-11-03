@@ -18,10 +18,15 @@ import {
   updateUser,
 } from "@/database/utils/userManager";
 import { User } from "@/database/models";
+import { useStore } from "zustand";
+import expenseTrackerStore from "@/store/expenceTracker";
 
 const ProfileUpdateScreen: React.FC = () => {
+  const navigate = useNavigation();
+
   const { userId }: { userId: string } = useLocalSearchParams();
-  const [user, setUser] = useState<User | null>(null);
+
+  const { user, setUser } = useStore(expenseTrackerStore);
 
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
 
@@ -65,6 +70,7 @@ const ProfileUpdateScreen: React.FC = () => {
       const updatedUser = await updateUser(userId, values);
       if (updatedUser) {
         setUser(updatedUser);
+        navigate.goBack();
       }
     } else {
       const newUser = await createUser(
@@ -74,6 +80,7 @@ const ProfileUpdateScreen: React.FC = () => {
       );
       if (newUser) {
         setUser(newUser);
+        navigate.goBack();
       }
     }
   };

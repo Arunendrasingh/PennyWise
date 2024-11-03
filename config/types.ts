@@ -19,3 +19,8 @@ export interface RenderInputProps {
   keyboardType?: "default" | "phone-pad" | "email-address" | "number-pad";
   editable?: boolean;
 }
+
+
+
+
+// Store type

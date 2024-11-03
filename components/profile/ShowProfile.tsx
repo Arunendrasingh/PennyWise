@@ -5,9 +5,12 @@ import { Link } from "expo-router";
 import { colorBlue, darkGray } from "@/constants/Colors";
 import { checkExistingUser } from "@/database/utils/userManager";
 import { User } from "@/database/models";
+import { useStore } from "zustand";
+import expenseTrackerStore from "@/store/expenceTracker";
 
 const ShowProfile = (): JSX.Element => {
-  const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<User | null>(null);
+  const { user, setUser } = useStore(expenseTrackerStore);
   useEffect(() => {
     const loadUser = async () => {
       const user = await checkExistingUser();
@@ -36,7 +39,9 @@ const ShowProfile = (): JSX.Element => {
               params: { userId: user?.id },
             }}
           >
-            <Text style={styles.editProfileText}>{user === null? "Added New User" : "Edit Profile"}</Text>
+            <Text style={styles.editProfileText}>
+              {user === null ? "Added New User" : "Edit Profile"}
+            </Text>
           </Link>
         </TouchableOpacity>
       </View>
