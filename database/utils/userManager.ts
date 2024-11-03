@@ -14,7 +14,6 @@ export const getLocalUser = () => database.get<User>("users").query().fetch();
 
 export const checkExistingUser = async () => {
   const user = await getLocalUser();
-  console.log("User: ", user);
 
   if (user.length > 0) {
     return user[0];
@@ -46,7 +45,7 @@ export const getUserById = async (userId: string): Promise<User | null> => {
     const user = await database.get<User>("users").find(userId);
     return user;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };
@@ -61,10 +60,9 @@ export const updateUserName = async (userId: string, newName: string) => {
       });
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
-
 
 // update the user
 export const updateUser = async (
@@ -86,7 +84,7 @@ export const updateUser = async (
       return null;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

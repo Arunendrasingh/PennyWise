@@ -43,7 +43,6 @@ const ProfileUpdateScreen: React.FC = () => {
     async function loadUserWithId(userId: string) {
       const user = await getUserById(userId);
       if (user) {
-        console.log("User: ", user);
         setUser(user);
       }
     }
@@ -81,7 +80,7 @@ const ProfileUpdateScreen: React.FC = () => {
 
   // saveButtonStatus
   const enableDisableSaveButton = (values: ProfileValues): boolean => {
-    if (userId) {
+    if (user) {
       return (
         values.name === user?.name &&
         values.phoneNumber === user?.phoneNumber &&

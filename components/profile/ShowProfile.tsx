@@ -9,10 +9,8 @@ import { User } from "@/database/models";
 const ShowProfile = (): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    console.log("Checking for existing user...");
     const loadUser = async () => {
       const user = await checkExistingUser();
-      console.log("This is a User: ", user);
 
       if (user) {
         setUser(user);
