@@ -13,9 +13,13 @@ import {
   getCategories,
 } from "@/database/utils/categoryManager";
 import { categories } from "@/assets/data/defaultCategory";
+import { useStore } from "zustand";
+import expenseTrackerStore from "@/store/expenceTracker";
 // import { useUser } from "@/hooks/useProfile";
 
 export default function Index(): JSX.Element {
+
+  const {user} = useStore(expenseTrackerStore);
   // Load app and if category is not created then create and set the record.
   useEffect(() => {
     async function loadDefaultCategory() {
@@ -42,7 +46,7 @@ export default function Index(): JSX.Element {
               <View style={styles.profileTextContainer}>
                 <Text style={styles.profileText}>Hello</Text>
               </View>
-              <Text style={styles.normalText}>Charles David: local user</Text>
+              <Text style={styles.normalText}>{user?.name}</Text>
             </View>
           </View>
           <View style={styles.bellContainer}>

@@ -10,12 +10,8 @@ function useCategories() {
   useEffect(() => {
     const categoryCollection = database.get<Category>("categories").query();
 
-    console.log("Category Collection: ", categoryCollection);
-
     const subscription = categoryCollection.observe().subscribe((records) => {
-      console.log("SubscriptionRecords: ", records);
       const newCategoryList = records.map((record) => {
-        console.log("Record: ", record);
         return {
           id: record.id,
           name: record.name,
@@ -25,11 +21,8 @@ function useCategories() {
         };
       });
 
-      console.log("Setting Categories: ", newCategoryList);
       setCategories(newCategoryList);
     });
-
-    console.log("Subsciption: ", subscription);
 
     return () => subscription.unsubscribe();
   }, []);

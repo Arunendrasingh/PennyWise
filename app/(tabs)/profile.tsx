@@ -108,13 +108,13 @@ const OptionRow = ({
   label: string;
   url_path?: string;
 }) => (
-  <TouchableOpacity style={styles.optionRow}>
-    {icon}
-    <Text style={styles.optionText}>{label}</Text>
-    <Link href={url_path || "/"}>
+  <Link href={url_path || "/"} asChild>
+    <TouchableOpacity style={styles.optionRow}>
+      {icon}
+      <Text style={styles.optionText}>{label}</Text>
       <FontAwesome name="chevron-right" size={20} color={darkGray} />
-    </Link>
-  </TouchableOpacity>
+    </TouchableOpacity>
+  </Link>
 );
 
 const styles = StyleSheet.create({
