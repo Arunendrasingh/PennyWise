@@ -43,7 +43,7 @@ export class Expense extends Model {
   @text("title") title!: string;
   @text("notes") notes!: string;
   @field("amount") amount!: number;
-  @date("date") date!: Date
+  @date("date") date!: Date;
   @field("is_recurring") isRecurring!: boolean;
 
   // Relations
@@ -57,18 +57,15 @@ export class Expense extends Model {
 export class Category extends Model {
   static table = "categories";
   static associations: Associations = {
-    user: { type: "belongs_to", key: "user_id" },
     expenses: { type: "has_many", foreignKey: "category_id" },
   };
 
   @text("name") name!: string;
   @text("icon") icon!: string;
   @text("color") color!: string;
+  @text("icon_library") iconLibrary!: string;
   @text("description") description!: string;
-
-  @immutableRelation("users", "user_id") user!: Relation<User>;
 
   @readonly @date("created_at") createdAt!: Date;
   @readonly @date("updated_at") updatedAt!: Date;
-
 }

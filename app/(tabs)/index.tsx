@@ -7,11 +7,27 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { colorBlue, lightGray } from "@/constants/Colors";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useEffect } from "react";
+import {
+  createBatchCategory,
+  getCategories,
+} from "@/database/utils/categoryManager";
+import { categories } from "@/assets/data/defaultCategory";
 // import { useUser } from "@/hooks/useProfile";
 
 export default function Index(): JSX.Element {
+  // Load app and if category is not created then create and set the record.
+  useEffect(() => {
+    async function loadDefaultCategory() {
+      const category = await getCategories();
+      if (category.length === 0) {
+        const newCategory = await createBatchCategory(categories);
+        console.log("Default Category: ", newCategory);
+      }
+    }
 
-  // const profile = useUser()
+    loadDefaultCategory();
+  }, []);
   return (
     <SafeAreaView>
       <View style={styles.container}>

@@ -6,16 +6,13 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import {
-  FontAwesome,
-  MaterialIcons,
-} from "@expo/vector-icons"; // Add your icon package
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons"; // Add your icon package
 import { darkGray, colorBlue } from "@/constants/Colors";
 
 import ShowProfile from "@/components/profile/ShowProfile";
+import { Link } from "expo-router";
 
 export default function index(): JSX.Element {
-  
   return (
     <View style={styles.container}>
       {/* Top Part - Profile Header */}
@@ -37,6 +34,7 @@ export default function index(): JSX.Element {
           <OptionRow
             icon={<FontAwesome name="list-alt" size={20} color={colorBlue} />}
             label="Category"
+            url_path="/categories"
           />
           <OptionRow
             icon={<FontAwesome name="bullseye" size={20} color={colorBlue} />}
@@ -101,11 +99,21 @@ export default function index(): JSX.Element {
   );
 }
 
-const OptionRow = ({ icon, label }: { icon: JSX.Element; label: string }) => (
+const OptionRow = ({
+  icon,
+  label,
+  url_path,
+}: {
+  icon: JSX.Element;
+  label: string;
+  url_path?: string;
+}) => (
   <TouchableOpacity style={styles.optionRow}>
     {icon}
     <Text style={styles.optionText}>{label}</Text>
-    <FontAwesome name="chevron-right" size={20} color={darkGray} />
+    <Link href={url_path || "/"}>
+      <FontAwesome name="chevron-right" size={20} color={darkGray} />
+    </Link>
   </TouchableOpacity>
 );
 

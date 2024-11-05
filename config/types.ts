@@ -1,12 +1,11 @@
 import { FormikHandlers } from "formik";
 
 export interface ProfileValues {
-    name: string;
-    phoneNumber: string;
-    email: string;
-    location?: string;
-  }
-
+  name: string;
+  phoneNumber: string;
+  email: string;
+  location?: string;
+}
 
 export interface RenderInputProps {
   label: string;
@@ -20,7 +19,15 @@ export interface RenderInputProps {
   editable?: boolean;
 }
 
-
-
-
 // Store type
+
+// Category type
+export type IconLibrary = "MaterialIcons" | "AntDesign" | string;
+
+export type CategoryType = {
+  id: string;
+  name: string;
+  icon: string;
+  iconLibrary: IconLibrary;
+  description: string;
+};
