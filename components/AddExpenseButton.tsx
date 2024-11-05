@@ -5,18 +5,16 @@ import { colorBlue } from "@/constants/Colors";
 import { useNavigation } from "expo-router";
 import { NavigationProp } from "@react-navigation/native";
 
-type RootStackParamList = {
-  AddExpense: undefined;
-};
 
 const AddExpenseButton = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList, "AddExpense">>();
+  const navigation =
+    useNavigation();
 
   return (
     <View style={styles.container}>
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate("AddExpense")}
+        onPress={() => navigation.navigate("expenses/AddExpense")}
       >
         <AntDesign name="pluscircle" size={54} color={colorBlue} />
       </Pressable>
