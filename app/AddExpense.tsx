@@ -11,6 +11,8 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { colorBlue, darkGray } from "@/constants/Colors";
 import { createLocalUser, getLocalUser } from "@/database/utils/userManager";
+import useCategories from "@/hooks/useCategories";
+import { CategoryType } from "@/config/types";
 
 /**
  * AddExpense component
@@ -22,11 +24,8 @@ import { createLocalUser, getLocalUser } from "@/database/utils/userManager";
  * @returns {JSX.Element} AddExpense component
  */
 const AddExpense = (): JSX.Element => {
+  const items = useCategories();
   const [isFocus, setIsFocus] = useState<boolean>(false);
-  const [items, setItems] = useState<{ label: string; value: string }[]>([
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-  ]);
   const initialValues = {
     amount: "",
     category: "",
@@ -40,9 +39,9 @@ const AddExpense = (): JSX.Element => {
       .min(1, "Amount cannot be zero")
       .positive("Amount must be positive")
       .integer(),
-    category: Yup.string().required(),
-    date: Yup.date().required(),
-    note: Yup.string(),
+    category: Yup.string().required("Category is Required!!"),
+    date: Yup.date().required("Date is Required!!"),
+    note: Yup.string().optional(),
   });
 
   const [show, setShow] = useState<boolean>(false);
@@ -94,19 +93,8 @@ const AddExpense = (): JSX.Element => {
     }
   };
 
-  const onAddExpenseSave =  async(values: typeof initialValues) => {
+  const onAddExpenseSave = async (values: typeof initialValues) => {
     console.log("Form Values: ", values);
-
-    let getUser = await getLocalUser();
-
-    if (getUser.length == 0){
-      let newUser = await createLocalUser("Admin", "admin@gmail.com")
-
-
-      console.log("Newly Created User: ", newUser)
-    }
-
-    console.log("Users are: ", getUser[0].collections)
   };
 
   return (
@@ -114,7 +102,7 @@ const AddExpense = (): JSX.Element => {
       <Formik
         initialValues={initialValues}
         validationSchema={addExpenseSchema}
-        onSubmit={(values) => onAddExpenseSave(values)}
+        onSubmit={onAddExpenseSave}
       >
         {({
           handleChange,
@@ -162,15 +150,16 @@ const AddExpense = (): JSX.Element => {
                   data={items}
                   search
                   maxHeight={300}
-                  labelField="label"
-                  valueField="value"
+                  labelField="name"
+                  valueField="id"
                   placeholder={!isFocus ? "Select Category" : "..."}
                   searchPlaceholder="Search..."
                   value={values.category}
                   onFocus={() => setIsFocus(true)}
                   onBlur={() => setIsFocus(false)}
-                  onChange={(item: { label: string; value: string }) => {
-                    setFieldValue("category", item.value);
+                  onChange={(item: CategoryType) => {
+                    console.log(item.name);
+                    setFieldValue("category", item.name);
                     setIsFocus(false);
                   }}
                   renderRightIcon={() => (
