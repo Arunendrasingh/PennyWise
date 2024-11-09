@@ -10,18 +10,7 @@ import expenseTrackerStore from "@/src/store/expenceTracker";
 
 const ShowProfile = (): JSX.Element => {
   // const [user, setUser] = useState<User | null>(null);
-  const { user, setUser } = useStore(expenseTrackerStore);
-  useEffect(() => {
-    const loadUser = async () => {
-      const user = await checkExistingUser();
-
-      if (user) {
-        setUser(user);
-      }
-    };
-
-    loadUser();
-  }, []);
+  const { user} = useStore(expenseTrackerStore);
   return (
     <View style={styles.profileHeader}>
       {/* <Text style={styles.headerText}>Profile</Text> */}

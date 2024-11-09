@@ -11,7 +11,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import RenderInputBox from "@/src/components/RenderInput";
 import { ProfileValues } from "@/src/config/types";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import {
   createUser,
   getUserById,
@@ -22,7 +22,7 @@ import { useStore } from "zustand";
 import expenseTrackerStore from "@/src/store/expenceTracker";
 
 const ProfileUpdateScreen: React.FC = () => {
-  const navigate = useNavigation();
+  const router = useRouter();
 
   const { userId }: { userId: string } = useLocalSearchParams();
 
@@ -70,7 +70,11 @@ const ProfileUpdateScreen: React.FC = () => {
       const updatedUser = await updateUser(userId, values);
       if (updatedUser) {
         setUser(updatedUser);
-        navigate.goBack();
+        if (router.canGoBack()) {
+          router.back();
+        } else {
+          router.replace("/(tabs)");
+        }
       }
     } else {
       const newUser = await createUser(
@@ -80,7 +84,8 @@ const ProfileUpdateScreen: React.FC = () => {
       );
       if (newUser) {
         setUser(newUser);
-        navigate.goBack();
+        if (router.canGoBack()) router.back();
+        else router.replace("/(tabs)");
       }
     }
   };
