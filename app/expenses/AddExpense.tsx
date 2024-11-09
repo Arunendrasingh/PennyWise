@@ -5,6 +5,11 @@ import * as Yup from "yup";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Dropdown } from "react-native-element-dropdown";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import useCategories from "@/hooks/useCategories";
+import { createExpense } from "@/database/utils/expenseManager";
+import { ExpenseType } from "@/config/types";
+import expenseTrackerStore from "@/store/expenceTracker";
+import { useStore } from "zustand";
 
 const colorBlue = "#0666EB";
 const darkGray = "#919191";
@@ -12,24 +17,41 @@ const lightGray = "#d9d9d9";
 
 const AddTransactionScreen = () => {
   const [show, setShow] = useState<boolean>(false);
-  const initialValues = {
+
+  const { user } = useStore(expenseTrackerStore);
+
+  const categories = useCategories();
+  const initialValues: ExpenseType = {
+    notes: "",
     amount: "",
-    category: "",
-    note: "",
     date: new Date(),
-    budget: "",
+    category_id: "",
+    user_id: "",
   };
 
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("Amount is required")
       .positive("Amount must be positive"),
-    category: Yup.string().required("Category is required"),
-    note: Yup.string(),
+    category_id: Yup.string().required("Category is required"),
+    notes: Yup.string().optional(),
     budget: Yup.string().required("Budget is required"),
   });
 
-  const handleFormSubmit = (values: typeof initialValues) => {
+  const handleFormSubmit = (values: typeof initialValues, resetForm: any) => {
+    try {
+      const newExpense = createExpense(
+        values.notes,
+        parseFloat(values.amount),
+        values.date,
+        values.category_id,
+        user.id
+      );
+      resetForm();
+      console.log(newExpense);
+    } catch (error) {
+      console.log(error);
+    }
     console.log(values);
   };
 
@@ -53,7 +75,7 @@ const AddTransactionScreen = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={handleFormSubmit}
+      onSubmit={(values, { resetForm }) => handleFormSubmit(values, resetForm)}
     >
       {({
         handleChange,
@@ -66,15 +88,17 @@ const AddTransactionScreen = () => {
       }) => (
         <View style={styles.container}>
           {/* Amount Section */}
-          <View style={styles.amountSection}>
-            <TextInput
-              placeholder="Enter Amount"
-              style={styles.amountInput}
-              keyboardType="numeric"
-              onChangeText={handleChange("amount")}
-              onBlur={handleBlur("amount")}
-              value={values.amount}
-            />
+          <View>
+            <View style={styles.amountSection}>
+              <TextInput
+                placeholder="Enter Amount"
+                style={styles.amountInput}
+                keyboardType="numeric"
+                onChangeText={handleChange("amount")}
+                onBlur={handleBlur("amount")}
+                value={values.amount?.toString()}
+              />
+            </View>
             {touched.amount && errors.amount && (
               <Text style={styles.error}>{errors.amount}</Text>
             )}
@@ -84,45 +108,43 @@ const AddTransactionScreen = () => {
           <View style={styles.detailsSection}>
             {/* Category Dropdown */}
             <View style={styles.inputRow}>
-              <Icon name="category" size={24} color={darkGray} />
+              <Icon name="category" size={24} color={colorBlue} />
+              <Text style={styles.label}>Category</Text>
               <Dropdown
                 style={styles.dropdown}
-                placeholder="Select Category"
-                data={[
-                  { label: "Food", value: "food" },
-                  { label: "Transport", value: "transport" },
-                ]} // Example data
-                labelField="label"
-                valueField="value"
-                value={values.category}
-                onChange={(item) => setFieldValue("category", item.value)}
+                placeholder=""
+                selectedTextStyle={styles.selectedTextStyle}
+                data={categories} // Example data
+                labelField="name"
+                valueField="id"
+                iconStyle={{ display: "none" }}
+                value={values.category_id}
+                onChange={(item) => setFieldValue("category_id", item.id)}
               />
-              <Icon name="chevron-right" size={24} color={darkGray} />
+              <Icon name="chevron-right" size={24} color={colorBlue} />
             </View>
-            {touched.category && errors.category && (
-              <Text style={styles.error}>{errors.category}</Text>
+            {touched.category_id && errors.category_id && (
+              <Text style={styles.error}>{errors.category_id}</Text>
             )}
 
             {/* Note Input */}
             <View style={styles.inputRow}>
-              <Icon name="note" size={24} color={darkGray} />
+              <Icon name="note" size={24} color={colorBlue} />
               <TextInput
                 placeholder="Note"
                 style={styles.textInput}
-                onChangeText={handleChange("note")}
-                onBlur={handleBlur("note")}
-                value={values.note}
+                onChangeText={handleChange("notes")}
+                onBlur={handleBlur("notes")}
+                value={values.notes}
               />
-              <Icon name="chevron-right" size={24} color={darkGray} />
+              <Icon name="chevron-right" size={24} color={colorBlue} />
             </View>
 
             {/* Date Picker */}
-            <Pressable
-              onPress={() => setShow(!show)}
-              style={styles.inputContainer}
-            >
+            <Pressable onPress={() => setShow(!show)}>
               <View style={styles.inputRow}>
                 <Icon name="calendar-today" size={24} color={darkGray} />
+                <Text style={styles.label}>Date</Text>
                 {show && (
                   <DateTimePicker
                     value={values.date}
@@ -143,9 +165,12 @@ const AddTransactionScreen = () => {
             {/* Budget Dropdown */}
             <View style={styles.inputRow}>
               <Icon name="attach-money" size={24} color={darkGray} />
+              <Text style={styles.label}>Budget</Text>
               <Dropdown
                 style={styles.dropdown}
-                placeholder="Select Budget"
+                placeholder=""
+                iconStyle={{ display: "none" }} // hide the dropdown icon
+                selectedTextStyle={styles.selectedTextStyle}
                 data={[
                   { label: "Monthly", value: "monthly" },
                   { label: "Weekly", value: "weekly" },
@@ -177,31 +202,50 @@ const AddTransactionScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    justifyContent: "space-around",
   },
   amountSection: {
     borderBottomWidth: 1.5,
     borderColor: lightGray,
     paddingBottom: 10,
+    paddingTop: 40,
+    flexDirection: "row",
   },
   amountInput: {
     fontSize: 24,
     color: colorBlue,
-    width: "79%",
+    width: "100%",
     alignSelf: "center",
     textAlign: "center",
   },
+  label: {
+    fontSize: 16,
+    color: darkGray,
+    fontWeight: "bold",
+    paddingLeft: 10,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    color: darkGray,
+    fontWeight: "bold",
+    paddingRight: 10,
+    textAlign: "right",
+  },
   detailsSection: {
-    // flex: 1,
-    // justifyContent: 'space-between',
+    flex: 0.6,
   },
   inputRow: {
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: lightGray,
-    paddingVertical: 10,
+    padding: 16,
+    marginBottom: 10,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
   },
   dropdown: {
     flex: 1,
@@ -214,7 +258,8 @@ const styles = StyleSheet.create({
   dateText: {
     flex: 1,
     color: darkGray,
-    paddingLeft: 10,
+    paddingRight: 10,
+    textAlign: "right",
   },
   buttonSection: {
     marginTop: 20,
@@ -231,7 +276,7 @@ const styles = StyleSheet.create({
   },
   error: {
     color: "red",
-    fontSize: 12,
+    fontSize: 15,
   },
 });
 

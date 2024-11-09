@@ -40,15 +40,16 @@ export class Expense extends Model {
     category: { type: "belongs_to", key: "category_id" },
   };
 
-  @text("title") title!: string;
   @text("notes") notes!: string;
   @field("amount") amount!: number;
   @date("date") date!: Date;
   @field("is_recurring") isRecurring!: boolean;
 
   // Relations
-  @immutableRelation("users", "user_id") user!: Relation<User>;
-  @relation("categories", "category_id") category!: Relation<Category>;
+  @immutableRelation("users", "user_id") user_id!: Relation<User> | string;
+  @relation("categories", "category_id") category_id!:
+    | Relation<Category>
+    | string;
 
   @readonly @date("created_at") createdAt!: Date;
   @readonly @date("updated_at") updatedAt!: Date;

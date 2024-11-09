@@ -5,7 +5,15 @@ export default function Layout() {
   return (
     <Stack id="ad">
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="expenses/AddExpense" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="expenses/AddExpense"
+        options={{
+          title: "Add New Transaction",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerTitle,
+          headerTitleAlign: "center",
+        }}
+      />
       <Stack.Screen
         name="categories"
         options={{

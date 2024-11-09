@@ -31,3 +31,14 @@ export type CategoryType = {
   iconLibrary: IconLibrary;
   description: string;
 };
+
+// Expense tracker
+export type ExpenseType = {
+  id?: string;
+  notes: string;
+  amount: string;
+  date: Date;
+  category_id: string;
+  user_id: string;
+  budget?: string;
+};
