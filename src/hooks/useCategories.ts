@@ -1,7 +1,7 @@
-import { CategoryType } from "@/config/types";
-import { database } from "@/database/database";
-import { Category } from "@/database/models";
-import { getCategories } from "@/database/utils/categoryManager";
+import { CategoryType } from "@/src/config/types";
+import { database } from "@/src/database/database";
+import { Category } from "@/src/database/models";
+import { getCategories } from "@/src/database/utils/categoryManager";
 import { useEffect, useState } from "react";
 
 function useCategories() {

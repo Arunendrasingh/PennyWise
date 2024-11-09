@@ -7,9 +7,9 @@ import {
   ScrollView,
 } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons"; // Add your icon package
-import { darkGray, colorBlue } from "@/constants/Colors";
+import { darkGray, colorBlue } from "@/src/constants/Colors";
 
-import ShowProfile from "@/components/profile/ShowProfile";
+import ShowProfile from "@/src/components/profile/ShowProfile";
 import { Link } from "expo-router";
 
 export default function index(): JSX.Element {

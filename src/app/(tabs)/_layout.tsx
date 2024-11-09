@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { colorBlue } from "@/constants/Colors";
+import { colorBlue } from "@/src/constants/Colors";
 
 export default function TabLayout() {
   return (

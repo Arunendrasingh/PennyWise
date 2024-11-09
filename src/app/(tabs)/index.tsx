@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import {
   createBatchCategory,
   getCategories,
-} from "@/database/utils/categoryManager";
+} from "@/src/database/utils/categoryManager";
 import { categories } from "@/assets/data/defaultCategory";
-import Home from "@/components/home/Home";
+import Home from "@/src/components/home/Home";
 
 export default function Index(): JSX.Element {
   // Load app and if category is not created then create and set the record.

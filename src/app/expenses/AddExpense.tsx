@@ -5,10 +5,10 @@ import * as Yup from "yup";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Dropdown } from "react-native-element-dropdown";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import useCategories from "@/hooks/useCategories";
-import { createExpense } from "@/database/utils/expenseManager";
-import { ExpenseType } from "@/config/types";
-import expenseTrackerStore from "@/store/expenceTracker";
+import useCategories from "@/src/hooks/useCategories";
+import { createExpense } from "@/src/database/utils/expenseManager";
+import { ExpenseType } from "@/src/config/types";
+import expenseTrackerStore from "@/src/store/expenceTracker";
 import { useStore } from "zustand";
 
 const colorBlue = "#0666EB";

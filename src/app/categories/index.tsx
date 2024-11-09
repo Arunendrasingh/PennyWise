@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { CategoryType } from "@/config/types";
-import useCategories from "@/hooks/useCategories";
+import { CategoryType } from "@/src/config/types";
+import useCategories from "@/src/hooks/useCategories";
 
 const iconLibraries = {
   MaterialIcons,

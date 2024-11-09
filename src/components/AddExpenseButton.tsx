@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { colorBlue } from "@/constants/Colors";
+import { colorBlue } from "@/src/constants/Colors";
 import { useNavigation } from "expo-router";
 import { NavigationProp } from "@react-navigation/native";
 

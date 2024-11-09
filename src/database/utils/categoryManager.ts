@@ -1,4 +1,4 @@
-import { CategoryType } from "@/config/types";
+import { CategoryType } from "@/src/config/types";
 import { database } from "../database";
 import { Category } from "../models";
 

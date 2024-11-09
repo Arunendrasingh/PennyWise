@@ -1,4 +1,4 @@
-import { RenderInputProps } from "@/config/types";
+import { RenderInputProps } from "@/src/config/types";
 import { StyleSheet, TextInput, Text } from "react-native";
 
 const RenderInputBox = ({

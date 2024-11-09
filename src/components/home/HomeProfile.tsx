@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import { useStore } from "zustand";
-import expenseTrackerStore from "@/store/expenceTracker";
+import expenseTrackerStore from "@/src/store/expenceTracker";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const HomeProfile = () => {

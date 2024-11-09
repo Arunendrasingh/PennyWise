@@ -9,17 +9,17 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import RenderInputBox from "@/components/RenderInput";
-import { ProfileValues } from "@/config/types";
+import RenderInputBox from "@/src/components/RenderInput";
+import { ProfileValues } from "@/src/config/types";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import {
   createUser,
   getUserById,
   updateUser,
-} from "@/database/utils/userManager";
-import { User } from "@/database/models";
+} from "@/src/database/utils/userManager";
+import { User } from "@/src/database/models";
 import { useStore } from "zustand";
-import expenseTrackerStore from "@/store/expenceTracker";
+import expenseTrackerStore from "@/src/store/expenceTracker";
 
 const ProfileUpdateScreen: React.FC = () => {
   const navigate = useNavigation();

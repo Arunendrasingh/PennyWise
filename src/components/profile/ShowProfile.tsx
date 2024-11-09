@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 
-import { colorBlue, darkGray } from "@/constants/Colors";
-import { checkExistingUser } from "@/database/utils/userManager";
-import { User } from "@/database/models";
+import { colorBlue, darkGray } from "@/src/constants/Colors";
+import { checkExistingUser } from "@/src/database/utils/userManager";
+import { User } from "@/src/database/models";
 import { useStore } from "zustand";
-import expenseTrackerStore from "@/store/expenceTracker";
+import expenseTrackerStore from "@/src/store/expenceTracker";
 
 const ShowProfile = (): JSX.Element => {
   // const [user, setUser] = useState<User | null>(null);

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
-import { colorBlue } from "@/constants/Colors";
+import { colorBlue } from "@/src/constants/Colors";
 
 const TargetExpenseView = () => {
   return (

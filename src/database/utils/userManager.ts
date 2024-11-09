@@ -1,4 +1,4 @@
-import { ProfileValues } from "@/config/types";
+import { ProfileValues } from "@/src/config/types";
 import { database } from "../database";
 import { User } from "../models";
 

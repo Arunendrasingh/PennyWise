@@ -1,4 +1,4 @@
-import { ExpenseType } from "@/config/types";
+import { ExpenseType } from "@/src/config/types";
 import { database } from "../database";
 import { Expense } from "../models";
 /**
