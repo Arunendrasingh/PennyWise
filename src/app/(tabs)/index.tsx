@@ -1,27 +1,18 @@
-import AddExpenseButton from "@/components/AddExpenseButton";
 import { Text, View, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
-import { colorBlue, lightGray } from "@/constants/Colors";
-
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useEffect } from "react";
 import {
   createBatchCategory,
   getCategories,
 } from "@/database/utils/categoryManager";
 import { categories } from "@/assets/data/defaultCategory";
-import { useStore } from "zustand";
-import expenseTrackerStore from "@/store/expenceTracker";
-// import { useUser } from "@/hooks/useProfile";
+import Home from "@/components/home/Home";
 
 export default function Index(): JSX.Element {
-
-  const {user} = useStore(expenseTrackerStore);
   // Load app and if category is not created then create and set the record.
   useEffect(() => {
+
     async function loadDefaultCategory() {
       const category = await getCategories();
       if (category.length === 0) {
@@ -34,86 +25,7 @@ export default function Index(): JSX.Element {
   }, []);
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        {/* Profile Container */}
-        <View style={styles.profileContainer}>
-          <View style={styles.profileImageContainer}>
-            <Image
-              source={require("@/assets/images/profile/profile.png")}
-              style={styles.profileImage}
-            />
-            <View>
-              <View style={styles.profileTextContainer}>
-                <Text style={styles.profileText}>Hello</Text>
-              </View>
-              <Text style={styles.normalText}>{user?.name}</Text>
-            </View>
-          </View>
-          <View style={styles.bellContainer}>
-            <FontAwesome name="bell-o" size={24} color="black" />
-            <View style={styles.badge}>
-              <Text style={styles.badgeText} />
-            </View>
-          </View>
-        </View>
-        {/* Total Expense Container */}
-        <View style={styles.budgetContainer}>
-          <AnimatedCircularProgress
-            size={240}
-            width={15}
-            fill={50}
-            lineCap="square"
-            arcSweepAngle={270}
-            rotation={225}
-            tintColor={colorBlue}
-            onAnimationComplete={() => console.log("onAnimationComplete")}
-            backgroundColor="#3d5875"
-          >
-            {() => (
-              <View style={styles.budgetTextContainer}>
-                <Text style={styles.budgetHeaderText}>Budged Used</Text>
-                <View style={styles.budgetUsedContainer}>
-                  <Text style={[styles.budgetText, styles.expenseBudget]}>
-                    $ 40000
-                  </Text>
-                  <Text style={styles.budgetText}>/</Text>
-                  <Text style={styles.budgetText}>$ 1000000</Text>
-                </View>
-              </View>
-            )}
-          </AnimatedCircularProgress>
-        </View>
-        {/* Total Income and Expense Container */}
-        <View style={styles.totalIncomeExpenseContainer}>
-          <View style={styles.incomeExpenseContainer}>
-            <View style={styles.amountCardContainer}>
-              <View style={styles.incomeContainerIcon}>
-                <MaterialIcons name="trending-up" size={24} color="green" />
-              </View>
-              <View style={styles.incomeExpenseContainerText}>
-                <Text style={[styles.amountCardTextHeader, styles.incomeColor]}>
-                  Income
-                </Text>
-                <Text style={styles.amountText}>$1000</Text>
-              </View>
-            </View>
-            <View style={styles.amountCardContainer}>
-              <View style={styles.expenseContainerIcon}>
-                <MaterialIcons name="trending-down" size={24} color="red" />
-              </View>
-              <View style={styles.incomeExpenseContainerText}>
-                <Text
-                  style={[styles.amountCardTextHeader, styles.expenseColor]}
-                >
-                  Expense
-                </Text>
-                <Text style={styles.amountText}>$ 1000</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        <AddExpenseButton />
-      </View>
+      <Home />
     </SafeAreaView>
   );
 }

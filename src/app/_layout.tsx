@@ -2,6 +2,10 @@ import { Stack } from "expo-router/stack";
 import { StyleSheet } from "react-native";
 
 export default function Layout() {
+  /** Layout
+   * Setup the user name entry interface here
+   */
+  
   return (
     <Stack id="ad">
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
