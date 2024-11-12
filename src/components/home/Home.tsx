@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AddExpenseButton from "../AddExpenseButton";
@@ -6,60 +6,73 @@ import HomeProfile from "./HomeProfile";
 import TargetExpenseView from "./TargetExpenseView";
 import { colorBlue, defaultColors } from "@/src/constants/Colors";
 import Card from "../Card";
+import { useExpenses } from "@/src/hooks/useExpenses";
+import { skip } from "@nozbe/watermelondb/QueryDescription";
 
 const Home = () => {
   // Load Recent Transaction from Database, load only 5 records, rest will show in history section
+
+  const expenses = useExpenses(0, 5);
 
   return (
     <View style={styles.container}>
       {/* Profile Container */}
       <HomeProfile />
       {/* Total Expense Container */}
-      <TargetExpenseView />
+      <ScrollView>
+        <TargetExpenseView />
 
-      {/* Total Income and Expense Container */}
-      <View style={styles.totalIncomeExpenseContainer}>
-        <View style={styles.incomeExpenseContainer}>
-          <View style={styles.amountCardContainer}>
-            <View style={styles.incomeContainerIcon}>
-              <MaterialIcons name="trending-up" size={24} color="green" />
+        {/* Total Income and Expense Container */}
+        <View style={styles.totalIncomeExpenseContainer}>
+          <View style={styles.incomeExpenseContainer}>
+            <View style={styles.amountCardContainer}>
+              <View style={styles.incomeContainerIcon}>
+                <MaterialIcons name="trending-up" size={24} color="green" />
+              </View>
+              <View style={styles.incomeExpenseContainerText}>
+                <Text style={[styles.amountCardTextHeader, styles.incomeColor]}>
+                  Income
+                </Text>
+                <Text style={styles.amountText}>$1000</Text>
+              </View>
             </View>
-            <View style={styles.incomeExpenseContainerText}>
-              <Text style={[styles.amountCardTextHeader, styles.incomeColor]}>
-                Income
-              </Text>
-              <Text style={styles.amountText}>$1000</Text>
-            </View>
-          </View>
-          <View style={styles.amountCardContainer}>
-            <View style={styles.expenseContainerIcon}>
-              <MaterialIcons name="trending-down" size={24} color="red" />
-            </View>
-            <View style={styles.incomeExpenseContainerText}>
-              <Text style={[styles.amountCardTextHeader, styles.expenseColor]}>
-                Expense
-              </Text>
-              <Text style={styles.amountText}>$ 1000</Text>
+            <View style={styles.amountCardContainer}>
+              <View style={styles.expenseContainerIcon}>
+                <MaterialIcons name="trending-down" size={24} color="red" />
+              </View>
+              <View style={styles.incomeExpenseContainerText}>
+                <Text
+                  style={[styles.amountCardTextHeader, styles.expenseColor]}
+                >
+                  Expense
+                </Text>
+                <Text style={styles.amountText}>$ 1000</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
 
-      {/* 
+        {/* 
         Create a View to display the  recent expenses
-      */}
-      {/* Recent Expenses */}
-      <View style={styles.recentExpenseContainer}>
-        <View style={styles.recentExpenseHeader}>
-          <Text style={styles.recentExpenseHeaderText}>Recent Expenses</Text>
-          <Text style={styles.viewAllText}>View All</Text>
+        */}
+        {/* Recent Expenses */}
+        <View style={styles.recentExpenseContainer}>
+          <View style={styles.recentExpenseHeader}>
+            <Text style={styles.recentExpenseHeaderText}>Recent Expenses</Text>
+            <Text style={styles.viewAllText}>View All</Text>
+          </View>
+
+          {/* 8 Recent expenses will be displayed here */}
+          {expenses.map((expense) => (
+            <Card
+              key={expense.id}
+              title={expense.notes}
+              amount={expense.amount}
+              date={expense.date}
+            />
+          ))}
         </View>
-
-        {/* 8 Recent expenses will be displayed here */}
-        <Card title="This is for something" date={new Date()} amount={100} />
-        <Card title="This is for another" date={new Date()} amount={200} />
-      </View>
-
+      </ScrollView>
       <AddExpenseButton />
     </View>
   );

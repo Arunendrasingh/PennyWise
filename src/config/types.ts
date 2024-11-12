@@ -36,7 +36,7 @@ export type CategoryType = {
 export type ExpenseType = {
   id?: string;
   notes: string;
-  amount: string;
+  amount: string | number;
   date: Date;
   category_id: string;
   user_id: string;
