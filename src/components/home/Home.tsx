@@ -4,8 +4,12 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AddExpenseButton from "../AddExpenseButton";
 import HomeProfile from "./HomeProfile";
 import TargetExpenseView from "./TargetExpenseView";
+import { colorBlue, defaultColors } from "@/src/constants/Colors";
+import Card from "../Card";
 
 const Home = () => {
+  // Load Recent Transaction from Database, load only 5 records, rest will show in history section
+
   return (
     <View style={styles.container}>
       {/* Profile Container */}
@@ -40,6 +44,22 @@ const Home = () => {
           </View>
         </View>
       </View>
+
+      {/* 
+        Create a View to display the  recent expenses
+      */}
+      {/* Recent Expenses */}
+      <View style={styles.recentExpenseContainer}>
+        <View style={styles.recentExpenseHeader}>
+          <Text style={styles.recentExpenseHeaderText}>Recent Expenses</Text>
+          <Text style={styles.viewAllText}>View All</Text>
+        </View>
+
+        {/* 8 Recent expenses will be displayed here */}
+        <Card title="This is for something" date={new Date()} amount={100} />
+        <Card title="This is for another" date={new Date()} amount={200} />
+      </View>
+
       <AddExpenseButton />
     </View>
   );
@@ -51,84 +71,6 @@ const styles = StyleSheet.create({
   container: {
     // backgroundColor: lightGray,
     height: "100%",
-  },
-  // Profile Container
-  profileContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginVertical: 20,
-    paddingHorizontal: 10,
-  },
-  profileImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10,
-  },
-  profileText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  normalText: {
-    fontSize: 16,
-  },
-  profileTextContainer: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-  },
-  profileImageContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  bellContainer: {
-    position: "relative",
-  },
-  // Badge Container
-  badge: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-    backgroundColor: "red",
-    borderRadius: 9,
-    width: 10,
-    height: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  badgeText: {
-    color: "white",
-    fontSize: 3,
-    fontWeight: "bold",
-  },
-  // Budget Container
-  budgetTextContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  budgetContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 40,
-  },
-  budgetHeaderText: {
-    fontSize: 22,
-    // fontWeight: "",
-    color: "gray",
-  },
-  budgetText: {
-    fontSize: 16,
-    color: "gray",
-  },
-  expenseBudget: {
-    fontWeight: "bold",
-    // fontSize: 19,
-    color: "black",
-  },
-  budgetUsedContainer: {
-    alignItems: "center",
-    justifyContent: "center",
   },
   // Income and Expense Container
   totalIncomeExpenseContainer: {
@@ -191,5 +133,24 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     height: 100,
     width: 100,
+  },
+  recentExpenseContainer: {
+    paddingHorizontal: 10,
+  },
+  recentExpenseHeader: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    marginBottom: 15,
+  },
+  recentExpenseHeaderText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: defaultColors.paytmColors.textBlack,
+  },
+  viewAllText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: colorBlue,
   },
 });

@@ -6,7 +6,7 @@
 const tintColorLight = "#0a7ea4";
 const tintColorDark = "#fff";
 
-export const Colors = {
+export const defaultColors = {
   light: {
     text: "#11181C",
     background: "#fff",
@@ -22,6 +22,14 @@ export const Colors = {
     icon: "#9BA1A6",
     tabIconDefault: "#9BA1A6",
     tabIconSelected: tintColorDark,
+  },
+  paytmColors: {
+    primaryBlue: "#042E6F",
+    accentBlue: "#00BAF2",
+    dividerGray: "#E6E6E6",
+    secondaryTextGray: "#6A6A6A",
+    backgroundWhite: "#FFFFFF",
+    textBlack: "#333333",
   },
 };
 

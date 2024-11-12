@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   categoryName: {
     flex: 1,
     fontSize: 16,
-    color: "#333",
+    color: "#333333",
   },
   arrowIcon: {
     color: "#007AFF",
