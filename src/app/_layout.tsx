@@ -5,6 +5,7 @@ import { StyleSheet } from "react-native";
 import { useStore } from "zustand";
 import expenseTrackerStore from "../store/expenceTracker";
 import { checkExistingUser } from "../database/utils/userManager";
+import { defaultColors } from "../constants/Colors";
 
 export default function Layout() {
   const router = useRouter();
@@ -47,6 +48,16 @@ export default function Layout() {
           headerTitleAlign: "center",
         }}
       />
+      <Stack.Screen
+        name="budgets"
+        options={{
+          title: "Budgets",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerTitle,
+          headerBackVisible: false,
+          headerTitleAlign: "left",
+        }}
+      />
     </Stack>
   );
 }
@@ -57,9 +68,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f8f8",
   },
   header: {
-    paddingVertical: 20,
+    paddingVertical: 18,
     paddingHorizontal: 16,
-    backgroundColor: "#007AFF",
+    backgroundColor: defaultColors.paytmColors.primaryBlue,
     alignItems: "center",
   },
   headerTitle: {

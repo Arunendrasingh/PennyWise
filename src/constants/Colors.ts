@@ -27,9 +27,12 @@ export const defaultColors = {
     primaryBlue: "#042E6F",
     accentBlue: "#00BAF2",
     dividerGray: "#E6E6E6",
+    darkGray : "#919191",
     secondaryTextGray: "#6A6A6A",
     backgroundWhite: "#FFFFFF",
     textBlack: "#333333",
+    text: "#11181C",
+    greenColor: "#34C759",
   },
 };
 

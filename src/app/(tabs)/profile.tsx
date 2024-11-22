@@ -29,6 +29,7 @@ export default function index(): JSX.Element {
             }
             label="Budget"
             value={"$1000"}
+            url_path="/budgets"
           />
           <OptionRow
             icon={<FontAwesome name="money" size={20} color={defaultColors.paytmColors.textBlack} />}
