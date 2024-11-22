@@ -33,6 +33,19 @@ export class User extends Model {
 //   static table = "settings";
 // }
 
+export class Budget extends Model {
+  static table = "budget";
+  static associations: Associations = {
+    user: { type: "belongs_to", key: "user_id" },
+  };
+
+  @field("amount") amount!: number;
+  @readonly @date("created_at") createdAt!: Date;
+  @readonly @date("updated_at") updatedAt!: Date;
+
+  @immutableRelation("users", "user_id") user_id!: Relation<User> | string;
+}
+
 export class Expense extends Model {
   static table = "expenses";
   static associations: Associations = {

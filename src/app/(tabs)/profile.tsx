@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons"; // Add your icon package
-import { darkGray, colorBlue } from "@/src/constants/Colors";
+import { FontAwesome, MaterialIcons, FontAwesome6 } from "@expo/vector-icons"; // Add your icon package
+import { darkGray, colorBlue, defaultColors } from "@/src/constants/Colors";
 
 import ShowProfile from "@/src/components/profile/ShowProfile";
 import { Link } from "expo-router";
@@ -24,74 +24,38 @@ export default function index(): JSX.Element {
         <Text style={styles.sectionHeader}>Personal Settings</Text>
         <ScrollView contentContainerStyle={styles.optionList}>
           <OptionRow
-            icon={<FontAwesome name="language" size={20} color={colorBlue} />}
-            label="Language"
+            icon={
+              <FontAwesome6 name="sack-dollar" size={20} color={defaultColors.paytmColors.textBlack} />
+            }
+            label="Budget"
+            value={"$1000"}
           />
           <OptionRow
-            icon={<FontAwesome name="money" size={20} color={colorBlue} />}
+            icon={<FontAwesome name="money" size={20} color={defaultColors.paytmColors.textBlack} />}
             label="Currency"
           />
           <OptionRow
-            icon={<FontAwesome name="list-alt" size={20} color={colorBlue} />}
+            icon={<FontAwesome name="list-alt" size={20} color={defaultColors.paytmColors.textBlack} />}
             label="Category"
             url_path="/categories"
           />
           <OptionRow
-            icon={<FontAwesome name="bullseye" size={20} color={colorBlue} />}
-            label="Goals"
-          />
-          <OptionRow
-            icon={<FontAwesome name="bell" size={20} color={colorBlue} />}
-            label="Notification"
-          />
-          <OptionRow
-            icon={<FontAwesome name="cogs" size={20} color={colorBlue} />}
+            icon={<FontAwesome name="cogs" size={20} color={defaultColors.paytmColors.textBlack} />}
             label="Settings"
           />
           <OptionRow
-            icon={<FontAwesome name="lock" size={20} color={colorBlue} />}
-            label="Privacy Settings"
-          />
-          <OptionRow
-            icon={<FontAwesome name="mobile" size={20} color={colorBlue} />}
-            label="Session Management"
-          />
-          <OptionRow
-            icon={<FontAwesome name="key" size={20} color={colorBlue} />}
-            label="Change Password"
-          />
-          <OptionRow
-            icon={<FontAwesome name="language" size={20} color={colorBlue} />}
-            label="Dark/Light Theme"
-          />
-          <OptionRow
-            icon={
-              <FontAwesome name="question-circle" size={20} color={colorBlue} />
-            }
-            label="FAQ"
-          />
-          <OptionRow
-            icon={<FontAwesome name="support" size={20} color={colorBlue} />}
+            icon={<FontAwesome name="support" size={20} color={defaultColors.paytmColors.textBlack} />}
             label="Contact Support"
           />
           <OptionRow
-            icon={<FontAwesome name="bug" size={20} color={colorBlue} />}
-            label="Report a Problem"
-          />
-          {/* <OptionRow icon="credit-card" label="Payment Methods" /> */}
-          <OptionRow
-            icon={
-              <FontAwesome name="info-circle" size={20} color={colorBlue} />
-            }
-            label="About"
-          />
-          <OptionRow
-            icon={<FontAwesome name="download" size={20} color={colorBlue} />}
+            icon={<FontAwesome name="download" size={20} color={defaultColors.paytmColors.textBlack} />}
             label="Download Data"
           />
           <OptionRow
-            icon={<MaterialIcons name="clear" size={20} color={colorBlue} />}
-            label="Clear Cache"
+            icon={
+              <FontAwesome name="info-circle" size={20} color={defaultColors.paytmColors.textBlack} />
+            }
+            label="About"
           />
         </ScrollView>
       </View>
@@ -103,16 +67,21 @@ const OptionRow = ({
   icon,
   label,
   url_path,
+  value,
 }: {
   icon: JSX.Element;
   label: string;
   url_path?: string;
+  value?: string;
 }) => (
   <Link href={url_path || "/"} asChild>
     <TouchableOpacity style={styles.optionRow}>
       {icon}
       <Text style={styles.optionText}>{label}</Text>
-      <FontAwesome name="chevron-right" size={20} color={darkGray} />
+      <View style={styles.optionRow}>
+        {value && <Text style={styles.optionValue}>{value}</Text>}
+        <FontAwesome name="chevron-right" size={20} color={darkGray} />
+      </View>
     </TouchableOpacity>
   </Link>
 );
@@ -133,7 +102,7 @@ const styles = StyleSheet.create({
   sectionHeader: {
     fontSize: 18,
     fontWeight: "600",
-    color: colorBlue,
+    color: defaultColors.paytmColors.primaryBlue,
     marginBottom: 15,
   },
   optionList: {
@@ -151,7 +120,12 @@ const styles = StyleSheet.create({
   optionText: {
     flex: 1,
     fontSize: 16,
-    color: "#333",
+    color: defaultColors.paytmColors.textBlack,
     marginLeft: 15,
+  },
+  optionValue: {
+    marginRight: 15,
+    fontSize: 16,
+    color: defaultColors.paytmColors.textBlack,
   },
 });

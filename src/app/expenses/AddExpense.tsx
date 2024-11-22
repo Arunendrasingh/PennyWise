@@ -10,10 +10,7 @@ import { createExpense } from "@/src/database/utils/expenseManager";
 import { ExpenseType } from "@/src/config/types";
 import expenseTrackerStore from "@/src/store/expenceTracker";
 import { useStore } from "zustand";
-
-const colorBlue = "#0666EB";
-const darkGray = "#919191";
-const lightGray = "#d9d9d9";
+import { defaultColors } from "@/src/constants/Colors";
 
 const AddTransactionScreen = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -94,9 +91,10 @@ const AddTransactionScreen = () => {
                 placeholder="Enter Amount"
                 style={styles.amountInput}
                 keyboardType="numeric"
-                onChangeText={handleChange("amount")}
+                onChangeText={(value) => setFieldValue("amount", value)}
                 onBlur={handleBlur("amount")}
-                value={values.amount?.toString()}
+                value={values.amount}
+                textAlign="center"
               />
             </View>
             {touched.amount && errors.amount && (
@@ -108,7 +106,11 @@ const AddTransactionScreen = () => {
           <View style={styles.detailsSection}>
             {/* Category Dropdown */}
             <View style={styles.inputRow}>
-              <Icon name="category" size={24} color={colorBlue} />
+              <Icon
+                name="category"
+                size={24}
+                color={defaultColors.paytmColors.textBlack}
+              />
               <Text style={styles.label}>Category</Text>
               <Dropdown
                 style={styles.dropdown}
@@ -121,7 +123,11 @@ const AddTransactionScreen = () => {
                 value={values.category_id}
                 onChange={(item) => setFieldValue("category_id", item.id)}
               />
-              <Icon name="chevron-right" size={24} color={colorBlue} />
+              <Icon
+                name="chevron-right"
+                size={24}
+                color={defaultColors.paytmColors.textBlack}
+              />
             </View>
             {touched.category_id && errors.category_id && (
               <Text style={styles.error}>{errors.category_id}</Text>
@@ -129,7 +135,11 @@ const AddTransactionScreen = () => {
 
             {/* Note Input */}
             <View style={styles.inputRow}>
-              <Icon name="note" size={24} color={colorBlue} />
+              <Icon
+                name="note"
+                size={24}
+                color={defaultColors.paytmColors.textBlack}
+              />
               <TextInput
                 placeholder="Note"
                 style={styles.textInput}
@@ -137,13 +147,21 @@ const AddTransactionScreen = () => {
                 onBlur={handleBlur("notes")}
                 value={values.notes}
               />
-              <Icon name="chevron-right" size={24} color={colorBlue} />
+              <Icon
+                name="chevron-right"
+                size={24}
+                color={defaultColors.paytmColors.textBlack}
+              />
             </View>
 
             {/* Date Picker */}
             <Pressable onPress={() => setShow(!show)}>
               <View style={styles.inputRow}>
-                <Icon name="calendar-today" size={24} color={darkGray} />
+                <Icon
+                  name="calendar-today"
+                  size={24}
+                  color={defaultColors.paytmColors.textBlack}
+                />
                 <Text style={styles.label}>Date</Text>
                 {show && (
                   <DateTimePicker
@@ -158,13 +176,21 @@ const AddTransactionScreen = () => {
                 <Text style={styles.dateText}>
                   {values.date.toLocaleDateString()}
                 </Text>
-                <Icon name="chevron-right" size={24} color={darkGray} />
+                <Icon
+                  name="chevron-right"
+                  size={24}
+                  color={defaultColors.paytmColors.textBlack}
+                />
               </View>
             </Pressable>
 
             {/* Budget Dropdown */}
             <View style={styles.inputRow}>
-              <Icon name="attach-money" size={24} color={darkGray} />
+              <Icon
+                name="attach-money"
+                size={24}
+                color={defaultColors.paytmColors.textBlack}
+              />
               <Text style={styles.label}>Budget</Text>
               <Dropdown
                 style={styles.dropdown}
@@ -180,7 +206,11 @@ const AddTransactionScreen = () => {
                 value={values.budget}
                 onChange={(item) => setFieldValue("budget", item.value)}
               />
-              <Icon name="chevron-right" size={24} color={darkGray} />
+              <Icon
+                name="chevron-right"
+                size={24}
+                color={defaultColors.paytmColors.textBlack}
+              />
             </View>
             {touched.budget && errors.budget && (
               <Text style={styles.error}>{errors.budget}</Text>
@@ -207,27 +237,26 @@ const styles = StyleSheet.create({
   },
   amountSection: {
     borderBottomWidth: 1.5,
-    borderColor: lightGray,
+    borderColor: defaultColors.paytmColors.secondaryTextGray,
     paddingBottom: 10,
     paddingTop: 40,
     flexDirection: "row",
+    textAlign: "center",
+    justifyContent: "center",
   },
   amountInput: {
     fontSize: 24,
-    color: colorBlue,
-    width: "100%",
-    alignSelf: "center",
-    textAlign: "center",
+    color: defaultColors.paytmColors.textBlack,
   },
   label: {
     fontSize: 16,
-    color: darkGray,
+    color: defaultColors.paytmColors.secondaryTextGray,
     fontWeight: "bold",
     paddingLeft: 10,
   },
   selectedTextStyle: {
     fontSize: 16,
-    color: darkGray,
+    color: defaultColors.paytmColors.secondaryTextGray,
     fontWeight: "bold",
     paddingRight: 10,
     textAlign: "right",
@@ -257,7 +286,7 @@ const styles = StyleSheet.create({
   },
   dateText: {
     flex: 1,
-    color: darkGray,
+    color: defaultColors.paytmColors.secondaryTextGray,
     paddingRight: 10,
     textAlign: "right",
   },
@@ -265,13 +294,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   submitButton: {
-    backgroundColor: colorBlue,
+    backgroundColor: defaultColors.paytmColors.primaryBlue,
     padding: 15,
     borderRadius: 8,
     alignItems: "center",
   },
   submitButtonText: {
-    color: "#fff",
+    color: defaultColors.paytmColors.backgroundWhite,
     fontSize: 16,
   },
   error: {
