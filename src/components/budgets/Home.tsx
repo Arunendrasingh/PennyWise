@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { Link } from "expo-router";
 import { FlatList, StyleSheet, Text, View, Animated } from "react-native";
 import BudgetCardView from "@/src/components/budgets/BudgetCardView";
 import { defaultColors } from "@/src/constants/Colors";
@@ -104,7 +105,9 @@ const Home = () => {
           <View style={styles.headerContainer}>
             <Text style={styles.budgetHeader}>Budgets </Text>
             <View style={styles.addBudgetButton}>
-              <Text>+</Text>
+              <Link href="/budgets/addBudget">
+                <Text>+</Text>
+              </Link>
             </View>
           </View>
 
@@ -148,11 +151,11 @@ const styles = StyleSheet.create({
   budgetHeader: {
     fontSize: 26,
     fontWeight: "bold",
-    color: defaultColors.paytmColors.textBlack
+    color: defaultColors.paytmColors.textBlack,
   },
   budgetDetailList: {
     paddingHorizontal: 20,
-    paddingBottom: 50
+    paddingBottom: 50,
   },
   addBudgetButton: {
     width: 25,

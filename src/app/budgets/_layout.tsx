@@ -8,6 +8,7 @@ export default function Layout() {
       id="index"
     >
       <Stack.Screen name="index" options={{ headerShown: false, headerBackVisible: false }} />
+      <Stack.Screen name="addBudget" options={{presentation: "modal"}} />
     </Stack>
   );
 }
