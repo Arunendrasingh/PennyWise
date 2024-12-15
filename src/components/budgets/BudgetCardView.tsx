@@ -1,9 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { defaultColors } from "@/src/constants/Colors";
-
 import { Bar } from "react-native-progress";
 
+/**
+ * BudgetCardView
+ *
+ * This component renders a budget card. The card displays the budget amount remaining this month, a progress bar, and the total budget amount.
+ *
+ * @return {React.ReactElement} BudgetCardView component
+ */
 const BudgetCardView = () => {
   return (
     <View style={styles.container}>
@@ -38,7 +44,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10,
     elevation: 2,
-    backgroundColor: defaultColors.light.background,
+    backgroundColor: defaultColors.paytmColors.dividerGray,
   },
   budgetAmount: {
     fontSize: 45,
@@ -67,3 +73,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+

@@ -8,6 +8,7 @@ import { colorBlue, defaultColors } from "@/src/constants/Colors";
 import Card from "../Card";
 import { useExpenses } from "@/src/hooks/useExpenses";
 import { skip } from "@nozbe/watermelondb/QueryDescription";
+import { Link } from "expo-router";
 
 const Home = () => {
   // Load Recent Transaction from Database, load only 5 records, rest will show in history section
@@ -59,7 +60,9 @@ const Home = () => {
         <View style={styles.recentExpenseContainer}>
           <View style={styles.recentExpenseHeader}>
             <Text style={styles.recentExpenseHeaderText}>Recent Expenses</Text>
-            <Text style={styles.viewAllText}>View All</Text>
+            <Link href="/budgets">
+              <Text style={styles.viewAllText}>View All</Text>
+            </Link>
           </View>
 
           {/* 8 Recent expenses will be displayed here */}

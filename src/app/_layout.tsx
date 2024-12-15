@@ -6,6 +6,7 @@ import { useStore } from "zustand";
 import expenseTrackerStore from "../store/expenceTracker";
 import { checkExistingUser } from "../database/utils/userManager";
 import { defaultColors } from "../constants/Colors";
+import AddExpenseButton from "../components/AddExpenseButton";
 
 export default function Layout() {
   const router = useRouter();
@@ -56,6 +57,7 @@ export default function Layout() {
           headerTitleStyle: styles.headerTitle,
           headerBackVisible: false,
           headerTitleAlign: "left",
+          headerRight: () => <AddExpenseButton />,
         }}
       />
     </Stack>

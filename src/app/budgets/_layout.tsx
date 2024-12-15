@@ -6,15 +6,6 @@ export default function Layout() {
   return (
     <Stack
       id="index"
-      screenOptions={{
-        // headerShown: true ,
-        // headerBackTitleVisible: 
-        // headerBackTitleVisible: false,
-        // title: "Budgets",
-        // headerTitleAlign: "center",
-        // headerStyle: styles.header,
-        // headerTitleStyle: styles.headerTitle,
-      }}
     >
       <Stack.Screen name="index" options={{ headerShown: false, headerBackVisible: false }} />
     </Stack>
