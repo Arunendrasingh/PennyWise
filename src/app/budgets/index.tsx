@@ -3,7 +3,7 @@ import React from "react";
 import BudgetCardView from "@/src/components/budgets/BudgetCardView";
 import { defaultColors } from "@/src/constants/Colors";
 import BudgetDetailsCard from "@/src/components/budgets/BudgetDetailsCard";
-
+import Home from "@/src/components/budgets/Home";
 
 type Budget = {
   id: string;
@@ -78,48 +78,9 @@ const index = () => {
   ];
   return (
     <View>
-      <BudgetCardView />
-      {/* TODO: Render list of budgets */}
-      <View style={styles.container}>
-        <Text style={styles.budgetHeader}>Budgets</Text>
-
-        {/* Render a Flat-list for each budget */}
-        {/* <BudgetScreen /> */}
-        <View style={styles.budgetDetailList}>
-          <FlatList
-            data={budgets}
-            renderItem={({ item }) => (
-              <BudgetDetailsCard
-                name={item.category}
-                remaining={item.remaining}
-                startTime={item.startDate}
-                endTime={item.endDate}
-                expense={item.spent}
-                totalBudget={item.total}
-              />
-            )}
-          />
-        </View>
-      </View>
+      <Home />
     </View>
   );
 };
 
 export default index;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: defaultColors.paytmColors.backgroundWhite,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-  },
-  budgetHeader: {
-    marginTop: 20,
-    marginStart: 15,
-    fontSize: 26,
-    fontWeight: "bold",
-  },
-  budgetDetailList: {
-    paddingHorizontal: 20,
-  },
-});

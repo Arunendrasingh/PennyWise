@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import {Bar} from "react-native-progress";
+import { Bar } from "react-native-progress";
 import { defaultColors } from "@/src/constants/Colors";
-
+import { generateHexColor } from "@/src/utils/colorUtils";
 
 interface BudgetDetailsProps {
   name: string;
@@ -23,17 +23,18 @@ const BudgetDetailsCard: React.FC<BudgetDetailsProps> = ({
   expense,
   totalBudget,
 }) => {
+  const backgroundColor = generateHexColor(name);
   return (
     <View style={styles.outerContainer}>
       <View style={styles.container}>
-        <View style={styles.tip} />
+        <View style={[styles.tip, { backgroundColor: backgroundColor }]} />
         <Text style={styles.budgetName}>{name}</Text>
-        <Bar width={null} />
+        <Bar width={null} progress={0.1} color={backgroundColor} />
         <View style={styles.dateRow}>
           <Text style={styles.dateText}>{startTime}</Text>
           <Text style={styles.dateText}>to {endTime}</Text>
         </View>
-        <View style={styles.divider} />
+        {/* <View style={styles.divider} /> */}
         <View style={styles.detailsContainer}>
           <Text style={styles.detailText}>
             Remaining: ${remaining.toFixed(2)}
@@ -43,7 +44,7 @@ const BudgetDetailsCard: React.FC<BudgetDetailsProps> = ({
             Total Budget: ${totalBudget.toFixed(2)}
           </Text>
         </View>
-        <View style={styles.divider} />
+        {/* <View style={styles.divider} /> */}
       </View>
     </View>
   );
@@ -54,9 +55,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   container: {
-    borderStartWidth: 3,
-    borderColor: defaultColors.paytmColors.primaryBlue,
+    borderStartWidth: 2,
+    borderColor: defaultColors.paytmColors.darkGray,
     paddingStart: 15,
+    paddingBottom: 10
   },
   tip: {
     width: 20,
@@ -65,12 +67,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#2196F3",
     position: "absolute",
     top: 0,
-    left: -12,
+    left: -11,
   },
   budgetName: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+    color: defaultColors.paytmColors.textBlack,
   },
   dateRow: {
     flexDirection: "row",
@@ -98,6 +101,5 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
 });
-
 
 export default BudgetDetailsCard;

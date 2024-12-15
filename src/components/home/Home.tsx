@@ -66,7 +66,7 @@ const Home = () => {
           </View>
 
           {/* 8 Recent expenses will be displayed here */}
-          {expenses.map((expense) => (
+          {expenses.map((expense) =>  (
             <Card
               key={expense.id}
               title={expense.notes}
