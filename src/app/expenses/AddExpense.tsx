@@ -5,47 +5,42 @@ import * as Yup from "yup";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Dropdown } from "react-native-element-dropdown";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import useCategories from "@/src/hooks/useCategories";
-import { createExpense } from "@/src/database/utils/expenseManager";
+import {
+  createExpenseWithBudgetUpdate,
+} from "@/src/database/utils/expenseManager";
 import { ExpenseType } from "@/src/config/types";
 import expenseTrackerStore from "@/src/store/expenceTracker";
 import { useStore } from "zustand";
 import { defaultColors } from "@/src/constants/Colors";
+import useBudgets from "@/src/hooks/useBudgets";
 
 const AddTransactionScreen = () => {
   const [show, setShow] = useState<boolean>(false);
 
   const { user } = useStore(expenseTrackerStore);
 
-  const categories = useCategories();
+  const budgets = useBudgets();
   const initialValues: ExpenseType = {
     notes: "",
     amount: "",
     date: new Date(),
-    category_id: "",
-    user_id: "",
+    budget_id: "",
+    user_id: user.id,
   };
 
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("Amount is required")
       .positive("Amount must be positive"),
-    category_id: Yup.string().required("Category is required"),
+    budget_id: Yup.string().required("Budget is required"),
     notes: Yup.string().optional(),
-    budget: Yup.string().required("Budget is required"),
   });
 
   const handleFormSubmit = (values: typeof initialValues, resetForm: any) => {
     try {
-      const newExpense = createExpense(
-        values.notes,
-        parseFloat(values.amount),
-        values.date,
-        values.category_id,
-        user.id
-      );
+      const newExpense = createExpenseWithBudgetUpdate(values.notes, parseFloat(values.amount), values.date, values.budget_id, user.id);
       resetForm();
-      console.log(newExpense);
+      console.log("This is a new Expense: ", newExpense);
     } catch (error) {
       console.log(error);
     }
@@ -107,21 +102,21 @@ const AddTransactionScreen = () => {
             {/* Category Dropdown */}
             <View style={styles.inputRow}>
               <Icon
-                name="category"
+                name="attach-money"
                 size={24}
                 color={defaultColors.paytmColors.textBlack}
               />
-              <Text style={styles.label}>Category</Text>
+              <Text style={styles.label}>Budget</Text>
               <Dropdown
                 style={styles.dropdown}
                 placeholder=""
                 selectedTextStyle={styles.selectedTextStyle}
-                data={categories} // Example data
-                labelField="name"
+                data={budgets} // Example data
+                labelField="title"
                 valueField="id"
                 iconStyle={{ display: "none" }}
-                value={values.category_id}
-                onChange={(item) => setFieldValue("category_id", item.id)}
+                value={values.budget_id}
+                onChange={(item) => setFieldValue("budget_id", item.id)}
               />
               <Icon
                 name="chevron-right"
@@ -129,8 +124,8 @@ const AddTransactionScreen = () => {
                 color={defaultColors.paytmColors.textBlack}
               />
             </View>
-            {touched.category_id && errors.category_id && (
-              <Text style={styles.error}>{errors.category_id}</Text>
+            {touched.budget_id && errors.budget_id && (
+              <Text style={styles.error}>{errors.budget_id}</Text>
             )}
 
             {/* Note Input */}
@@ -184,37 +179,6 @@ const AddTransactionScreen = () => {
               </View>
             </Pressable>
 
-            {/* Budget Dropdown */}
-            <View style={styles.inputRow}>
-              <Icon
-                name="attach-money"
-                size={24}
-                color={defaultColors.paytmColors.textBlack}
-              />
-              <Text style={styles.label}>Budget</Text>
-              <Dropdown
-                style={styles.dropdown}
-                placeholder=""
-                iconStyle={{ display: "none" }} // hide the dropdown icon
-                selectedTextStyle={styles.selectedTextStyle}
-                data={[
-                  { label: "Monthly", value: "monthly" },
-                  { label: "Weekly", value: "weekly" },
-                ]} // Example data
-                labelField="label"
-                valueField="value"
-                value={values.budget}
-                onChange={(item) => setFieldValue("budget", item.value)}
-              />
-              <Icon
-                name="chevron-right"
-                size={24}
-                color={defaultColors.paytmColors.textBlack}
-              />
-            </View>
-            {touched.budget && errors.budget && (
-              <Text style={styles.error}>{errors.budget}</Text>
-            )}
           </View>
 
           {/* Submit Button Section */}

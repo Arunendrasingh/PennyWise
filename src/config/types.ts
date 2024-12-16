@@ -38,7 +38,7 @@ export type ExpenseType = {
   notes: string;
   amount: string | number;
   date: Date;
-  category_id: string;
+  budget_id: string;
   user_id: string;
   budget?: string;
 };

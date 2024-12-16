@@ -7,8 +7,9 @@ import {
   text,
   field,
   readonly,
+  writer,
+  action,
 } from "@nozbe/watermelondb/decorators";
-import { number } from "yup";
 
 export class User extends Model {
   static table = "users";
@@ -42,6 +43,7 @@ export class Budget extends Model {
 
   @field("title") title!: string;
   @field("amount") amount!: number;
+  @field("used_amount") usedAmount!: number;
   @date("start_at") startDate!: Date;
   @date("end_at") endDate!: Date;
   @readonly @date("created_at") createdAt!: Date;
@@ -51,13 +53,20 @@ export class Budget extends Model {
   @relation("categories", "category_id") category_id!:
     | Relation<Category>
     | string;
+
+  // used amount writer
+  @writer async increaseUsedAmount(amount: number) {
+    await this.update((budget) => {
+      budget.usedAmount += amount;
+    });
+  }
 }
 
 export class Expense extends Model {
   static table = "expenses";
   static associations: Associations = {
     user: { type: "belongs_to", key: "user_id" },
-    category: { type: "belongs_to", key: "category_id" },
+    budget: { type: "belongs_to", key: "budget_id" },
   };
 
   @text("notes") notes!: string;
@@ -66,10 +75,8 @@ export class Expense extends Model {
   @field("is_recurring") isRecurring!: boolean;
 
   // Relations
-  @immutableRelation("users", "user_id") user_id!: Relation<User> | string;
-  @relation("categories", "category_id") category_id!:
-    | Relation<Category>
-    | string;
+  @immutableRelation("users", "user_id") user!: Relation<User>;
+  @relation("budgets", "budget_id") budget!: Relation<Budget>;
 
   @readonly @date("created_at") createdAt!: Date;
   @readonly @date("updated_at") updatedAt!: Date;

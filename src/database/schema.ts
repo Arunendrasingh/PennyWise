@@ -1,7 +1,7 @@
 import { appSchema, tableSchema } from "@nozbe/watermelondb";
 
 const schema = appSchema({
-  version: 1,
+  version: 3,
   tables: [
     tableSchema({
       name: "users",
@@ -18,6 +18,7 @@ const schema = appSchema({
       columns: [
         { name: "title", type: "string" },
         { name: "amount", type: "number" },
+        { name: "used_amount", type: "number" },
         { name: "user_id", type: "string" },
         { name: "start_at", type: "number" },
         { name: "end_at", type: "number" },
@@ -55,7 +56,7 @@ const schema = appSchema({
         { name: "date", type: "number" },
         { name: "is_recurring", type: "boolean" },
         // { name: "payment_method", type: "string", isOptional: true },
-        { name: "category_id", type: "string", isIndexed: true },
+        { name: "budget_id", type: "string", isIndexed: true },
         { name: "user_id", type: "string", isIndexed: true },
         { name: "created_at", type: "number" },
         { name: "updated_at", type: "number" },

@@ -43,18 +43,18 @@ const addBudget = () => {
 
   const handleFormSubmit = (values: typeof initialValues, resetForm: any) => {
     try {
-        console.log("Creating new Budget")
-        const newBudget = createBudgets(
-            values.name,
-            values.amount,
-            values.startDate,
-            values.endDate,
-            values.category_id,
-            values.user_id
-        )
+      console.log("Creating new Budget");
+      const newBudget = createBudgets(
+        values.name,
+        parseFloat(values.amount),
+        values.startDate,
+        values.endDate,
+        values.category_id,
+        values.user_id
+      );
 
-        resetForm()
-        console.log(newBudget)
+      resetForm();
+      console.log(newBudget);
     } catch (error) {
       console.error(error);
     }
