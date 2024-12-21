@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { defaultColors } from "@/src/constants/Colors";
-// import { Bar } from "react-native-progress";
 import { Link } from "expo-router";
 import MulticolorBar from "../MulticolorBar";
 
@@ -53,7 +52,6 @@ const BudgetCardView = ({ totalBudget, spentBudget }) => {
         barHeight={15}
         barStyle={{ marginVertical: 0 }}
         />
-        {/* <Bar width={null} /> */}
         <View style={styles.budgetInfo}>
           <Text style={styles.budgetTextInfo}>Spent </Text>
           <Text style={styles.totalBudgetText}>$ {spentBudget} </Text>
