@@ -4,6 +4,10 @@ import { FlatList, StyleSheet, Text, View, Animated } from "react-native";
 import BudgetCardView from "@/src/components/budgets/BudgetCardView";
 import { defaultColors } from "@/src/constants/Colors";
 import BudgetDetailsCard from "@/src/components/budgets/BudgetDetailsCard";
+import useBudgets from "@/src/hooks/useBudgets";
+import { BudgetType } from "@/src/config/types";
+import expenseTrackerStore from "@/src/store/expenceTracker";
+import { useStore } from "zustand";
 
 type Budget = {
   id: string;
@@ -18,64 +22,7 @@ type Budget = {
 };
 
 const Home = () => {
-  const budgets: Budget[] = [
-    {
-      id: "1",
-      category: "Groceries",
-      total: 500,
-      spent: 200,
-      remaining: 300,
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      dateAdded: "2024-11-30",
-      lastTransactions: ["Bought vegetables - $50", "Bought fruits - $30"],
-    },
-    {
-      id: "2",
-      category: "Movie",
-      total: 500,
-      spent: 200,
-      remaining: 300,
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      dateAdded: "2024-11-30",
-      lastTransactions: ["Bought vegetables - $50", "Bought fruits - $30"],
-    },
-    {
-      id: "3",
-      category: "Gim",
-      total: 500,
-      spent: 200,
-      remaining: 300,
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      dateAdded: "2024-11-30",
-      lastTransactions: ["Bought vegetables - $50", "Bought fruits - $30"],
-    },
-    {
-      id: "4",
-      category: "Others",
-      total: 500,
-      spent: 200,
-      remaining: 300,
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      dateAdded: "2024-11-30",
-      lastTransactions: ["Bought vegetables - $50", "Bought fruits - $30"],
-    },
-    {
-      id: "5",
-      category: "Family",
-      total: 500,
-      spent: 200,
-      remaining: 300,
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      dateAdded: "2024-11-30",
-      lastTransactions: ["Bought vegetables - $50", "Bought fruits - $30"],
-    },
-    // Add more budget items here
-  ];
+  const budgets: BudgetType[] = useBudgets(0, 10);
 
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -85,6 +32,46 @@ const Home = () => {
     outputRange: [200, 0], // Shrinks from full height to 0
     extrapolate: "clamp",
   });
+
+  // Budget Details
+  // const [budgetDetail, setBudgetDetail] = expenseTrackerStore(state => [state.budgetDetail, state.setBudgetDetail]);
+  const {totalBudgetDetail, setBudgetDetail} = useStore(expenseTrackerStore);
+
+  
+  
+  // Count the budget detail
+  function calculateBudgetUsage() {  
+    // Calculate totals
+    if (budgets.length === 0) {
+      return;
+    }
+
+    // Print the budgets list
+    console.log("Budgets: ", budgets);
+    const totalBudget = budgets.reduce((sum, budget) => sum + parseFloat(budget.totalBudget), 0);
+    const totalUsed = budgets.reduce((sum, budget) => sum + parseFloat(budget.usedBudget), 0);
+  
+    // Calculate percentage (avoid division by zero)
+    const percentageUsed = Math.round(totalBudget > 0 ? (totalUsed / totalBudget) * 100 : 0);
+    console.log("Total Budget: ", totalBudget);
+    console.log("Total Used: ", totalUsed);
+    console.log("Percentage Used: ", percentageUsed);
+    setBudgetDetail({
+      totalBudget,
+      totalUsed,
+      percentageUsed,
+    });
+  }
+
+
+  // Use state to update the BudgetDetail card, as soon as the budgets are fetched
+  React.useEffect(() => {
+    calculateBudgetUsage();
+  }, [budgets]);
+
+
+
+  console.log("Budget Detail from Zustand: ", totalBudgetDetail)
 
   return (
     <View>
@@ -97,7 +84,7 @@ const Home = () => {
         )}
       >
         <Animated.View style={{ height: component1Height }}>
-          <BudgetCardView />
+          <BudgetCardView totalBudget={totalBudgetDetail.totalBudget} spentBudget={totalBudgetDetail.totalUsed} />
         </Animated.View>
 
         {/* TODO: Render list of budgets */}
@@ -114,14 +101,14 @@ const Home = () => {
           <View style={styles.budgetDetailList}>
             <FlatList
               data={budgets}
-              renderItem={({ item }) => (
+              renderItem={({ item }: BudgetType) => (
                 <BudgetDetailsCard
-                  name={item.category}
-                  remaining={item.remaining}
+                  name={item.title}
+                  remaining={item.remainingBudget}
                   startTime={item.startDate}
                   endTime={item.endDate}
-                  expense={item.spent}
-                  totalBudget={item.total}
+                  expense={item.usedBudget}
+                  totalBudget={item.totalBudget}
                 />
               )}
               scrollEnabled={false}

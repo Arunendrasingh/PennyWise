@@ -12,7 +12,7 @@ import { useStore } from "zustand";
 import { defaultColors } from "@/src/constants/Colors";
 import { createBudgets } from "@/src/database/utils/budgetManager";
 
-const addBudget = () => {
+const AddBudget = () => {
   const [showStartDatePicker, setShowStartDatePicker] =
     useState<boolean>(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState<boolean>(false);
@@ -43,7 +43,6 @@ const addBudget = () => {
 
   const handleFormSubmit = (values: typeof initialValues, resetForm: any) => {
     try {
-      console.log("Creating new Budget");
       const newBudget = createBudgets(
         values.name,
         parseFloat(values.amount),
@@ -54,7 +53,6 @@ const addBudget = () => {
       );
 
       resetForm();
-      console.log(newBudget);
     } catch (error) {
       console.error(error);
     }
@@ -251,4 +249,4 @@ const styles = StyleSheet.create({
   error: { color: "red", fontSize: 15 },
 });
 
-export default addBudget;
+export default AddBudget;

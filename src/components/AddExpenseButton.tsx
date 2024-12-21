@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { colorBlue } from "@/src/constants/Colors";
+import { colorBlue, defaultColors } from "@/src/constants/Colors";
 import { useNavigation } from "expo-router";
 import { NavigationProp } from "@react-navigation/native";
 
@@ -31,5 +31,7 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 30,
   },
-  button: {},
+  button: {
+    backgroundColor: defaultColors.paytmColors.backgroundWhite
+  },
 });

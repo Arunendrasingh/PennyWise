@@ -26,7 +26,9 @@ export const defaultColors = {
   paytmColors: {
     primaryBlue: "#042E6F",
     accentBlue: "#00BAF2",
+    lightBlue: "#0666EB",
     dividerGray: "#E6E6E6",
+    lightGray: "#d9d9d9",
     darkGray : "#919191",
     secondaryTextGray: "#6A6A6A",
     backgroundWhite: "#FFFFFF",

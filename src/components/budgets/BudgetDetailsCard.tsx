@@ -16,20 +16,29 @@ interface BudgetDetailsProps {
 
 const BudgetDetailsCard: React.FC<BudgetDetailsProps> = ({
   name,
-  progress,
   startTime,
   endTime,
   remaining,
   expense,
   totalBudget,
 }) => {
-  const backgroundColor = generateHexColor(name);
+  // const backgroundColor = generateHexColor(name);
+  // Count the progress of the budget by using the remaining budget and total budget in percentage
+  if (typeof remaining !== "number" || typeof totalBudget !== "number") {
+    totalBudget = parseFloat(totalBudget);
+    expense = parseFloat(expense);
+  }
+  const progress = remaining / totalBudget;
+  const progressColor = progress > 50 ? "green" : "red";
+  console.log("Total Expense: ", expense)
+  console.log("Total Budget: ", totalBudget);
+  console.log("Total Income Progress: ", progress);
   return (
     <View style={styles.outerContainer}>
       <View style={styles.container}>
-        <View style={[styles.tip, { backgroundColor: backgroundColor }]} />
+        <View style={styles.tip} />
         <Text style={styles.budgetName}>{name}</Text>
-        <Bar width={null} progress={0.1} color={backgroundColor} />
+        <Bar width={null} progress={0.1} color={defaultColors.paytmColors.accentBlue} />
         <View style={styles.dateRow}>
           <Text style={styles.dateText}>{startTime}</Text>
           <Text style={styles.dateText}>to {endTime}</Text>
@@ -64,7 +73,7 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 10,
-    backgroundColor: "#2196F3",
+    backgroundColor: defaultColors.paytmColors.accentBlue,
     position: "absolute",
     top: 0,
     left: -11,

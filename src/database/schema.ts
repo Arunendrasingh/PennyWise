@@ -26,18 +26,18 @@ const schema = appSchema({
         { name: "updated_at", type: "number" },
       ],
     }),
-    // tableSchema({
-    //   name: "profiles",
-    //   columns: [
-    //     { name: "name", type: "string" },
-    //     { name: "email", type: "string" },
-    //     { name: "phone", type: "string" },
-    //     { name: "avatar", type: "string", isOptional: true },
-    //     { name: "user_id", type: "string", isIndexed: true },
-    //     { name: "created_at", type: "number" },
-    //     { name: "updated_at", type: "number" },
-    //   ],
-    // }),
+    tableSchema({
+      name: "profiles",
+      columns: [
+        { name: "name", type: "string" },
+        { name: "email", type: "string" },
+        { name: "phone", type: "string" },
+        { name: "avatar", type: "string", isOptional: true },
+        { name: "user_id", type: "string", isIndexed: true },
+        { name: "created_at", type: "number" },
+        { name: "updated_at", type: "number" },
+      ],
+    }),
     // tableSchema({
     //   name: "settings",
     //   columns: [

@@ -18,64 +18,6 @@ type Budget = {
 };
 
 const index = () => {
-  const budgets: Budget[] = [
-    {
-      id: "1",
-      category: "Groceries",
-      total: 500,
-      spent: 200,
-      remaining: 300,
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      dateAdded: "2024-11-30",
-      lastTransactions: ["Bought vegetables - $50", "Bought fruits - $30"],
-    },
-    {
-      id: "2",
-      category: "Movie",
-      total: 500,
-      spent: 200,
-      remaining: 300,
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      dateAdded: "2024-11-30",
-      lastTransactions: ["Bought vegetables - $50", "Bought fruits - $30"],
-    },
-    {
-      id: "3",
-      category: "Gim",
-      total: 500,
-      spent: 200,
-      remaining: 300,
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      dateAdded: "2024-11-30",
-      lastTransactions: ["Bought vegetables - $50", "Bought fruits - $30"],
-    },
-    {
-      id: "4",
-      category: "Others",
-      total: 500,
-      spent: 200,
-      remaining: 300,
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      dateAdded: "2024-11-30",
-      lastTransactions: ["Bought vegetables - $50", "Bought fruits - $30"],
-    },
-    {
-      id: "5",
-      category: "Family",
-      total: 500,
-      spent: 200,
-      remaining: 300,
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      dateAdded: "2024-11-30",
-      lastTransactions: ["Bought vegetables - $50", "Bought fruits - $30"],
-    },
-    // Add more budget items here
-  ];
   return (
     <View>
       <Home />

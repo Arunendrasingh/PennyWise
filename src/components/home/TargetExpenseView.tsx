@@ -1,21 +1,21 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
-import { colorBlue } from "@/src/constants/Colors";
+import { colorBlue, defaultColors } from "@/src/constants/Colors";
 
 const TargetExpenseView = () => {
   return (
     <View style={styles.budgetContainer}>
       <AnimatedCircularProgress
-        size={240}
-        width={15}
+        size={200}
+        width={12}
         fill={50}
         lineCap="square"
         arcSweepAngle={270}
         rotation={225}
         tintColor={colorBlue}
         onAnimationComplete={() => console.log("onAnimationComplete")}
-        backgroundColor="#3d5875"
+        backgroundColor={defaultColors.paytmColors.lightGray}
       >
         {() => (
           <View style={styles.budgetTextContainer}>
@@ -38,7 +38,6 @@ export default TargetExpenseView;
 
 const styles = StyleSheet.create({
     container: {
-      // backgroundColor: lightGray,
       height: "100%",
     },
     // Profile Container
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "space-between",
       width: "100%",
-      marginVertical: 20,
+      marginVertical: 10,
       paddingHorizontal: 10,
     },
     profileImage: {
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
     budgetContainer: {
       alignItems: "center",
       justifyContent: "center",
-      marginVertical: 40,
+      marginVertical: 8,
     },
     budgetHeaderText: {
       fontSize: 22,

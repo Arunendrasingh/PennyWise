@@ -6,7 +6,7 @@ const Avatar = ({ title, fontSize }: { title: string; fontSize: number }) => {
   const color = generateHexColor(title);
   return (
     <View style={[styles.avatarContainer, { backgroundColor: color }]}>
-      <Text style={[styles.avatarHeaderText, { fontSize: fontSize }]}>A</Text>
+      <Text style={[styles.avatarHeaderText, { fontSize: fontSize }]}>{title.slice(0,1)}</Text>
     </View>
   );
 };

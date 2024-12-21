@@ -42,3 +42,14 @@ export type ExpenseType = {
   user_id: string;
   budget?: string;
 };
+
+export type BudgetType = {
+  id: string;
+  title: string;
+  amount: number;
+  usedAmount: number;
+  startDate: string;
+  endDate: string;
+  dateAdded: string;
+  lastTransactions: string[];
+};

@@ -9,11 +9,13 @@ import Card from "../Card";
 import { useExpenses } from "@/src/hooks/useExpenses";
 import { skip } from "@nozbe/watermelondb/QueryDescription";
 import { Link } from "expo-router";
+import useBudgets from "@/src/hooks/useBudgets";
 
 const Home = () => {
   // Load Recent Transaction from Database, load only 5 records, rest will show in history section
 
   const expenses = useExpenses(0, 5);
+  const recentBudgets = useBudgets(0, 3);
 
   return (
     <View style={styles.container}>
@@ -28,7 +30,7 @@ const Home = () => {
           <View style={styles.incomeExpenseContainer}>
             <View style={styles.amountCardContainer}>
               <View style={styles.incomeContainerIcon}>
-                <MaterialIcons name="trending-up" size={24} color="green" />
+                <MaterialIcons name="trending-up" size={45} color="green" />
               </View>
               <View style={styles.incomeExpenseContainerText}>
                 <Text style={[styles.amountCardTextHeader, styles.incomeColor]}>
@@ -39,7 +41,7 @@ const Home = () => {
             </View>
             <View style={styles.amountCardContainer}>
               <View style={styles.expenseContainerIcon}>
-                <MaterialIcons name="trending-down" size={24} color="red" />
+                <MaterialIcons name="trending-down" size={45} color="red" />
               </View>
               <View style={styles.incomeExpenseContainerText}>
                 <Text
@@ -53,25 +55,42 @@ const Home = () => {
           </View>
         </View>
 
-        {/* 
-        Create a View to display the  recent expenses
-        */}
         {/* Recent Expenses */}
         <View style={styles.recentExpenseContainer}>
           <View style={styles.recentExpenseHeader}>
             <Text style={styles.recentExpenseHeaderText}>Recent Expenses</Text>
+            {/* <Link href="/budgets"> */}
+            <Text style={styles.viewAllText}>View All</Text>
+            {/* </Link> */}
+          </View>
+
+          {/* 8 Recent expenses will be displayed here */}
+          {expenses.map((expense) => (
+            <Card
+              key={expense.id}
+              title={expense.notes}
+              amount={expense.amount}
+              date={expense.date}
+            />
+          ))}
+        </View>
+
+        {/* Recent Budgets */}
+        <View style={styles.recentExpenseContainer}>
+          <View style={styles.recentExpenseHeader}>
+            <Text style={styles.recentExpenseHeaderText}>Recent Budgets</Text>
             <Link href="/budgets">
               <Text style={styles.viewAllText}>View All</Text>
             </Link>
           </View>
 
           {/* 8 Recent expenses will be displayed here */}
-          {expenses.map((expense) =>  (
+          {recentBudgets.map((budget) => (
             <Card
-              key={expense.id}
-              title={expense.notes}
-              amount={expense.amount}
-              date={expense.date}
+              key={budget.id}
+              title={budget.title}
+              amount={budget.totalBudget}
+              date={budget.startDate}
             />
           ))}
         </View>
@@ -128,12 +147,12 @@ const styles = StyleSheet.create({
   },
   incomeContainerIcon: {
     backgroundColor: "#A5FEC8",
-    padding: 20,
+    padding: 10,
     borderRadius: 100,
   },
   expenseContainerIcon: {
     backgroundColor: "#FEBFC0",
-    padding: 20,
+    padding: 10,
     borderRadius: 100,
   },
   amountText: {
@@ -152,6 +171,7 @@ const styles = StyleSheet.create({
   },
   recentExpenseContainer: {
     paddingHorizontal: 10,
+    marginVertical: 20,
   },
   recentExpenseHeader: {
     flexDirection: "row",

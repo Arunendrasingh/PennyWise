@@ -25,10 +25,68 @@ export class User extends Model {
   @date("updated_at") updatedAt!: Date;
 }
 
-// export class Profile extends Model {
-//   static table = "profiles";
+export class Profile extends Model {
+  static table = "profiles";
+  static associations: Associations = {
+    user: { type: "belongs_to", key: "user_id" },
+  }
 
-// }
+  @text("name") name!: string;
+  @text("avatar") profileImg!: string;
+
+  @text("total_income") totalIncome!: number;
+  @text("total_expense") totalExpense!: number;
+  @text("total_budget") totalBudget!: number;
+  @text("total_savings") totalSavings!: number;
+
+  // Relations
+  @relation("user", "user_id") user!: Relation<User>;
+
+  @readonly @date("created_at") createdAt!: Date;
+  @date("updated_at") updatedAt!: Date;
+
+  // Worker to update the existing value
+  @writer async updateTotalIncome(income: number) {
+    // this.totalIncome = income;
+    const totalSaving = this.totalIncome - this.totalExpense;
+    await this.update(profile => {
+      profile.totalIncome = income;
+      profile.totalSavings = totalSaving;
+    })
+  }
+
+  @writer async updateTotalExpense(expense: number) {
+    // this.totalExpense = expense;
+    const totalSaving = this.totalIncome - this.totalExpense;
+    await this.update(profile => {
+      profile.totalExpense = expense;
+      profile.totalSavings = totalSaving;
+    })
+  }
+
+  @writer async updateTotalBudget(budget: number) {
+    // this.totalBudget = budget;
+    
+    await this.update(profile => {
+      profile.totalBudget = budget;
+    })
+  }
+  /**
+   * Updates the total savings value for the user's profile.
+   * @param savings - The new total savings amount to set.
+   */
+  @writer async updateTotalSavings(savings: number) {
+    // this.totalSavings = savings;
+    await this.update(profile => {
+      profile.totalSavings = savings;
+    })
+  }
+
+}
+
+// TODO: Create one more models to save the Income.
+// TODO: In the profile show the all income and budgets.
+// TODO: For Home page count the budget used from the total budget.
 
 // export class Settings extends Model {
 //   static table = "settings";
