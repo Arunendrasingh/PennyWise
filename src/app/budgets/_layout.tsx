@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 export default function Layout() {
   return (
-    <Stack id="index">
+    <Stack id="budget">
       <Stack.Screen
         name="index"
         options={{ headerShown: false, headerBackVisible: false }}

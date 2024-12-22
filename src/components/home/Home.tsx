@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AddExpenseButton from "../AddExpenseButton";
@@ -8,7 +8,7 @@ import { colorBlue, defaultColors } from "@/src/constants/Colors";
 import Card from "../Card";
 import { useExpenses } from "@/src/hooks/useExpenses";
 import { skip } from "@nozbe/watermelondb/QueryDescription";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import useBudgets from "@/src/hooks/useBudgets";
 
 const Home = () => {
@@ -16,6 +16,9 @@ const Home = () => {
 
   const expenses = useExpenses(0, 5);
   const recentBudgets = useBudgets(0, 3);
+
+  // Use expo router to navigate between screens
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
@@ -59,9 +62,9 @@ const Home = () => {
         <View style={styles.recentExpenseContainer}>
           <View style={styles.recentExpenseHeader}>
             <Text style={styles.recentExpenseHeaderText}>Recent Expenses</Text>
-            {/* <Link href="/budgets"> */}
-            <Text style={styles.viewAllText}>View All</Text>
-            {/* </Link> */}
+            <Pressable>
+              <Text style={styles.viewAllText}>View All</Text>
+            </Pressable>
           </View>
 
           {/* 8 Recent expenses will be displayed here */}
@@ -79,9 +82,9 @@ const Home = () => {
         <View style={styles.recentExpenseContainer}>
           <View style={styles.recentExpenseHeader}>
             <Text style={styles.recentExpenseHeaderText}>Recent Budgets</Text>
-            <Link href="/budgets">
+            <Pressable onPress={() => router.push("/budgets")}>
               <Text style={styles.viewAllText}>View All</Text>
-            </Link>
+            </Pressable>
           </View>
 
           {/* 8 Recent expenses will be displayed here */}

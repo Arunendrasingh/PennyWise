@@ -35,24 +35,31 @@ const Home = () => {
 
   // Budget Details
   // const [budgetDetail, setBudgetDetail] = expenseTrackerStore(state => [state.budgetDetail, state.setBudgetDetail]);
-  const {totalBudgetDetail, setBudgetDetail} = useStore(expenseTrackerStore);
+  const { totalBudgetDetail, setBudgetDetail } = useStore(expenseTrackerStore);
 
-  
-  
   // Count the budget detail
-  function calculateBudgetUsage() {  
+  function calculateBudgetUsage() {
     // Calculate totals
     if (budgets.length === 0) {
+      console.log("Budgets is empty..........");
       return;
     }
 
     // Print the budgets list
     console.log("Budgets: ", budgets);
-    const totalBudget = budgets.reduce((sum, budget) => sum + parseFloat(budget.totalBudget), 0);
-    const totalUsed = budgets.reduce((sum, budget) => sum + parseFloat(budget.usedBudget), 0);
-  
+    const totalBudget = budgets.reduce(
+      (sum, budget) => sum + parseFloat(budget.totalBudget),
+      0
+    );
+    const totalUsed = budgets.reduce(
+      (sum, budget) => sum + parseFloat(budget.usedBudget),
+      0
+    );
+
     // Calculate percentage (avoid division by zero)
-    const percentageUsed = Math.round(totalBudget > 0 ? (totalUsed / totalBudget) * 100 : 0);
+    const percentageUsed = Math.round(
+      totalBudget > 0 ? (totalUsed / totalBudget) * 100 : 0
+    );
     console.log("Total Budget: ", totalBudget);
     console.log("Total Used: ", totalUsed);
     console.log("Percentage Used: ", percentageUsed);
@@ -63,15 +70,13 @@ const Home = () => {
     });
   }
 
-
   // Use state to update the BudgetDetail card, as soon as the budgets are fetched
   React.useEffect(() => {
     calculateBudgetUsage();
   }, [budgets]);
 
-
-
-  console.log("Budget Detail from Zustand: ", totalBudgetDetail)
+  console.log("Budget Detail from Zustand: ", totalBudgetDetail);
+  console.log("Budgets list detail: ", budgets);
 
   return (
     <View>
@@ -84,37 +89,42 @@ const Home = () => {
         )}
       >
         <Animated.View style={{ height: component1Height }}>
-          <BudgetCardView totalBudget={totalBudgetDetail.totalBudget} spentBudget={totalBudgetDetail.totalUsed} />
+          <BudgetCardView
+            totalBudget={totalBudgetDetail?.totalBudget}
+            spentBudget={totalBudgetDetail?.totalUsed}
+          />
         </Animated.View>
 
         {/* TODO: Render list of budgets */}
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <Text style={styles.budgetHeader}>Budgets </Text>
-            <View style={styles.addBudgetButton}>
-              <Link href="/budgets/addBudget">
-                <Text>+</Text>
-              </Link>
+        {budgets.length > 0 ? (
+          <View style={styles.container}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.budgetHeader}>Budgets </Text>
+              <View style={styles.addBudgetButton}>
+                <Link href="/budgets/addBudget">
+                  <Text>+</Text>
+                </Link>
+              </View>
+            </View>
+
+            <View style={styles.budgetDetailList}>
+              <FlatList
+                data={budgets}
+                renderItem={({ item }: BudgetType) => (
+                  <BudgetDetailsCard
+                    name={item.title}
+                    remaining={item.remainingBudget}
+                    startTime={item.startDate}
+                    endTime={item.endDate}
+                    expense={item.usedBudget}
+                    totalBudget={item.totalBudget}
+                  />
+                )}
+                scrollEnabled={false}
+              />
             </View>
           </View>
-
-          <View style={styles.budgetDetailList}>
-            <FlatList
-              data={budgets}
-              renderItem={({ item }: BudgetType) => (
-                <BudgetDetailsCard
-                  name={item.title}
-                  remaining={item.remainingBudget}
-                  startTime={item.startDate}
-                  endTime={item.endDate}
-                  expense={item.usedBudget}
-                  totalBudget={item.totalBudget}
-                />
-              )}
-              scrollEnabled={false}
-            />
-          </View>
-        </View>
+        ) : null}
       </Animated.ScrollView>
     </View>
   );

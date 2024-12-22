@@ -12,11 +12,8 @@ import MulticolorBar from "../MulticolorBar";
  * @return {React.ReactElement} BudgetCardView component
  */
 const BudgetCardView = ({ totalBudget, spentBudget }) => {
-  const remainingAmount = totalBudget - spentBudget;
-  const percentageRemaining = (remainingAmount / totalBudget) * 100;
-  const roundedPercentage = Math.max(0, Math.round(percentageRemaining));
-
-  if (!totalBudget) {
+  
+  if ((totalBudget === null) || (!totalBudget)) {
     return (
       <View style={styles.card}>
         <Text style={styles.message}>
@@ -31,6 +28,10 @@ const BudgetCardView = ({ totalBudget, spentBudget }) => {
     );
   }
 
+  const remainingAmount = totalBudget - spentBudget;
+  const percentageRemaining = (remainingAmount / totalBudget) * 100;
+  const roundedPercentage = Math.max(0, Math.round(percentageRemaining));
+  
   const barSegments = [
     { value: 10, style: { backgroundColor: '#4caf50' } }, // Green (40%)
     { value: 30, style: { backgroundColor: '#ff9800' } }, // Orange (30%)

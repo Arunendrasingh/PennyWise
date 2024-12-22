@@ -22,6 +22,8 @@ const BudgetDetailsCard: React.FC<BudgetDetailsProps> = ({
   expense,
   totalBudget,
 }) => {
+
+  console.log("Rendering budget detail card")
   // const backgroundColor = generateHexColor(name);
   // Count the progress of the budget by using the remaining budget and total budget in percentage
   if (typeof remaining !== "number" || typeof totalBudget !== "number") {

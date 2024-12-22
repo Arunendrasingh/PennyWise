@@ -23,3 +23,7 @@ expo-env.d.ts
 # VSCode
 .vscode/
 .idea/
+
+# Android and program data folder
+%ProgramData%/
+android/
