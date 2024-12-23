@@ -1,16 +1,12 @@
 import React, { useState, useRef } from "react";
-import { FlatList, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, Text, StyleSheet, TouchableOpacity, NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 
-type MonthItem = {
-  key: string;
-  label: string;
+type Month = {
+  id: number;
+  name: string;
 };
 
-type HorizontalMonthPickerProps = {
-  onSelectMonth: (month: string) => void; // Setter for selected month
-};
-
-const getMonthName = (id) => {
+const getMonthName = (id: number): string => {
   const baseDate = new Date(2024, 11, 1); // Dec 2024
   const targetDate = new Date(baseDate.setMonth(baseDate.getMonth() + id));
   return targetDate.toLocaleString("default", {
@@ -18,31 +14,36 @@ const getMonthName = (id) => {
     year: "numeric",
   });
 };
-function formatMonth(date) {
-  if (!(date instanceof Date) || isNaN(date.getTime())) {
-    throw new Error(`Invalid Date: ${date}`);
-  }
-  const label = `${date.toLocaleString("default", {
-    month: "short",
-  })} ${date.getFullYear()}`;
 
-  const indexFormattedMonth = `${date.toLocaleString("default", {
-    month: "numeric",
-  })} ${date.getFullYear()}`;
+// function formatMonth(date: Date): { key: string; label: string } {
+//   if (!(date instanceof Date) || isNaN(date.getTime())) {
+//     throw new Error(`Invalid Date: ${date}`);
+//   }
+//   const label = `${date.toLocaleString("default", {
+//     month: "short",
+//   })} ${date.getFullYear()}`;
 
-  return { key: indexFormattedMonth, label };
+//   const indexFormattedMonth = `${date.toLocaleString("default", {
+//     month: "numeric",
+//   })} ${date.getFullYear()}`;
+
+//   return { key: indexFormattedMonth, label };
+// }
+
+interface HorizontalMonthPickerProps {
+  onSelectMonth: (month: string) => void;
 }
 
 const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
   onSelectMonth,
 }) => {
-  const initialMonths = Array.from({ length: 11 }, (_, i) => {
+  const initialMonths: Month[] = Array.from({ length: 11 }, (_, i) => {
     const id = i - 5; // 5 months before and 5 after the current months
     return { id, name: getMonthName(id) };
   });
 
-  const [months, setMonths] = useState<MonthItem[]>(initialMonths);
-  const listRef = useRef(null);
+  const [months, setMonths] = useState<Month[]>(initialMonths);
+  const listRef = useRef<FlatList<Month>>(null);
   const isLoading = useRef(false);
 
   const loadMoreFutureMonths = () => {
@@ -62,7 +63,7 @@ const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
     isLoading.current = true;
 
     const firstMonth = months[0];
-    const newMonths = [];
+    const newMonths: Month[] = [];
 
     for (let i = 1; i <= 3; i++) {
       const prevId = firstMonth.id - i;
@@ -85,7 +86,7 @@ const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
     }, 0);
   };
 
-  const handleEndReached = ({ distanceFromEnd }) => {
+  const handleEndReached = ({ distanceFromEnd }: { distanceFromEnd: number }) => {
     if (distanceFromEnd < 0) {
       loadMorePastMonths();
     } else {
@@ -93,16 +94,15 @@ const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
     }
   };
 
-  const [selectedMonth, setSelectedMonth] = useState<string>(false);
-  // Handle scroll events to detect direction
-  const handleScroll = (event) => {
+  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset } = event.nativeEvent;
     if (contentOffset.x < 70 && !isLoading.current) {
       loadMorePastMonths();
     }
   };
 
-  // Handle selection of a month
   const handleSelectMonth = (month: string) => {
     setSelectedMonth(month);
     onSelectMonth(month);
@@ -118,7 +118,7 @@ const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <TouchableOpacity
-          onPress={() => handleSelectMonth(item.label)}
+          onPress={() => handleSelectMonth(item.name)}
           style={[
             styles.capsule,
             selectedMonth === item.name && styles.selectedCapsule,
@@ -137,6 +137,7 @@ const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
       contentContainerStyle={styles.contentContainer}
       onScroll={handleScroll}
       scrollEventThrottle={20}
+      onEndReached={handleEndReached}
       getItemLayout={(data, index) => ({
         length: 100,
         offset: 100 * index,
