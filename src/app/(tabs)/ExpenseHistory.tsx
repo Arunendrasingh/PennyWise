@@ -1,14 +1,40 @@
 import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
+import HorizontalMonthPicker from "@/src/components/HorizontalMonthPicker";
+import { defaultColors } from "@/src/constants/Colors";
 
 const ExpenseHistory = () => {
+  const [selectedMonth, setSelectedMonth] = React.useState<string | null>(null)
+  console.log("Selected Month: ", selectedMonth)
+  
   return (
-    <View>
-      <Text>ExpenseHistory</Text>
-    </View>
+    <SafeAreaView>
+      {/* First create a view for calender */}
+      <View style={styles.monthContainer}>
+        <HorizontalMonthPicker onSelectMonth={setSelectedMonth} />
+      </View>
+
+      {/* Then other details will come from here */}
+      {/* <Text>ExpenseHistory</Text> */}
+    </SafeAreaView>
   );
 };
 
 export default ExpenseHistory;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  title: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  monthContainer: {
+    backgroundColor: defaultColors.paytmColors.backgroundWhite,
+    paddingVertical: 10,
+  }
+});

@@ -30,6 +30,7 @@ export default function TabLayout() {
         name="ExpenseHistory"
         options={{
           title: "History",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="history" size={24} color={color} />
           ),
