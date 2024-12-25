@@ -1,5 +1,12 @@
 import React, { useState, useRef } from "react";
-import { FlatList, Text, StyleSheet, TouchableOpacity, NativeScrollEvent, NativeSyntheticEvent } from "react-native";
+import {
+  FlatList,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from "react-native";
 
 type Month = {
   id: number;
@@ -7,7 +14,7 @@ type Month = {
 };
 
 const getMonthName = (id: number): string => {
-  const baseDate = new Date(2024, 11, 1); // Dec 2024
+  const baseDate = new Date(); // Dec 2024
   const targetDate = new Date(baseDate.setMonth(baseDate.getMonth() + id));
   return targetDate.toLocaleString("default", {
     month: "short",
@@ -15,20 +22,20 @@ const getMonthName = (id: number): string => {
   });
 };
 
-// function formatMonth(date: Date): { key: string; label: string } {
-//   if (!(date instanceof Date) || isNaN(date.getTime())) {
-//     throw new Error(`Invalid Date: ${date}`);
-//   }
-//   const label = `${date.toLocaleString("default", {
-//     month: "short",
-//   })} ${date.getFullYear()}`;
+function formatMonth(date: Date): { key: string; label: string } {
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    throw new Error(`Invalid Date: ${date}`);
+  }
+  const label = `${date.toLocaleString("default", {
+    month: "short",
+  })} ${date.getFullYear()}`;
 
-//   const indexFormattedMonth = `${date.toLocaleString("default", {
-//     month: "numeric",
-//   })} ${date.getFullYear()}`;
+  const indexFormattedMonth = `${date.toLocaleString("default", {
+    month: "numeric",
+  })} ${date.getFullYear()}`;
 
-//   return { key: indexFormattedMonth, label };
-// }
+  return { key: indexFormattedMonth, label };
+}
 
 interface HorizontalMonthPickerProps {
   onSelectMonth: (month: string) => void;
@@ -86,7 +93,11 @@ const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
     }, 0);
   };
 
-  const handleEndReached = ({ distanceFromEnd }: { distanceFromEnd: number }) => {
+  const handleEndReached = ({
+    distanceFromEnd,
+  }: {
+    distanceFromEnd: number;
+  }) => {
     if (distanceFromEnd < 0) {
       loadMorePastMonths();
     } else {
@@ -96,16 +107,31 @@ const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
 
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
 
+  // UseEffect to select the current date as selected
+  React.useEffect(() => {
+
+    const currentDate = new Date().toLocaleString("default", {
+      month: "short",
+      year: "numeric",
+    })
+
+    setSelectedMonth(currentDate)
+    
+  }, []);
+
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset } = event.nativeEvent;
-    if (contentOffset.x < 70 && !isLoading.current) {
+    if (contentOffset.x < 50 && !isLoading.current) {
       loadMorePastMonths();
     }
   };
 
   const handleSelectMonth = (month: string) => {
     setSelectedMonth(month);
-    onSelectMonth(month);
+    // if ((typeof onSelectMonth === "function")) {
+    //   console.log("Calling outside setFunction")
+    //   onSelectMonth(month);
+    // }
   };
 
   return (

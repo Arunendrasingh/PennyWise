@@ -3,21 +3,37 @@ import React from "react";
 import Avatar from "./Avatar";
 import { defaultColors } from "../constants/Colors";
 
-const Card = ({title, date, amount}: {
+const Card = ({
+  title,
+  date,
+  amount,
+  useShadow,
+}: {
   title: string;
   date: Date | string;
   amount: number;
+  useShadow?: boolean;
 }) => {
-
   const formatDate = (date: string | Date): string => {
     if (date instanceof Date) {
       // Convert the Date object into a string (e.g., ISO format)
       return date.toDateString(); // Example: "2023-12-21T10:20:30.000Z"
     }
     return date; // If it's already a string, return it as-is
-  }
+  };
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        !useShadow
+          ? {}
+          : {
+              shadowColor: defaultColors.paytmColors.primaryBlue,
+              shadowOpacity: 0.1,
+              elevation: 2,
+            },
+      ]}
+    >
       <View style={styles.cardContainer}>
         <View style={styles.avatarContainer}>
           <Avatar title={title} fontSize={25} />
@@ -42,10 +58,10 @@ const styles = StyleSheet.create({
     marginVertical: 3,
     paddingHorizontal: 10,
     borderRadius: 8,
-    shadowColor: defaultColors.paytmColors.primaryBlue,
-    shadowOpacity: 0.1,
+    // shadowColor: defaultColors.paytmColors.primaryBlue,
+    // shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 2,
+    // elevation: 2,
     padding: 8,
   },
   cardContainer: {
