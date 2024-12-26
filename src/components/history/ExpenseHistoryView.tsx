@@ -49,15 +49,15 @@ const ExpenseHistoryView = () => {
     // Repeat for all days in December 2024
   ];
 
+  // Here Create a store, and setStore state in zustand to load the history, and update the history for each months
+
   const renderHeader = ({ section }) => {
     return (
       <View style={styles.headerContainer}>
         <PillContainer
-          pillData={[
-            { text: section.date, color: "#FF5733" },
-            { text: section.gain, color: "#33B5FF" },
-            { text: section.expense, color: "#9C33FF" },
-          ]}
+          pill1Data={{ text: section.date, color: "#FF5733" }}
+          pill2Data={{ text: section.gain, color: "#33B5FF" }}
+          pill3Data={{ text: section.expense, color: "#9C33FF" }}
           lineColor="#B0B0B0"
         />
       </View>
@@ -65,7 +65,12 @@ const ExpenseHistoryView = () => {
   };
 
   const renderItem = ({ item }) => (
-    <Card title={item.title} date={item.addedDate} amount={item.amount} useShadow={false} />
+    <Card
+      title={item.title}
+      date={item.addedDate}
+      amount={item.amount}
+      useShadow={false}
+    />
   );
 
   return (

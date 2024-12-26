@@ -3,12 +3,16 @@ import { View, StyleSheet } from "react-native";
 import Pill from "./Pill";
 
 interface ConnectedPillsProps {
-  pillData: { text: string; color: string }[];
+  pill1Data: { text: string; color: string };
+  pill2Data: { text: string; color: string };
+  pill3Data: { text: string; color: string };
   lineColor: string;
 }
 
 const PillContainer: React.FC<ConnectedPillsProps> = ({
-  pillData,
+  pill1Data,
+  pill2Data,
+  pill3Data,
   lineColor,
 }) => {
   return (
@@ -16,8 +20,8 @@ const PillContainer: React.FC<ConnectedPillsProps> = ({
       {/* First Pill */}
       <View style={Styles.pillWrapper}>
         <Pill
-          text={pillData[0].text}
-          color={pillData[0].color}
+          text={pill1Data.text}
+          color={pill1Data.color}
           useBackground={true}
         />
       </View>
@@ -27,22 +31,26 @@ const PillContainer: React.FC<ConnectedPillsProps> = ({
 
       {/* Second and Third Pills */}
       <View style={Styles.rightPills}>
-        <Pill
-          text={pillData[1].text}
-          color={pillData[1].color}
-          useBackground={false}
-        />
+        {pill2Data ? (
+          <Pill
+            text={pill2Data.text}
+            color={pill2Data.color}
+            useBackground={false}
+          />
+        ) : null}
         <View
           style={[
             Styles.line,
             { backgroundColor: lineColor, marginHorizontal: 8 },
           ]}
         />
-        <Pill
-          text={pillData[2].text}
-          color={pillData[2].color}
-          useBackground={false}
-        />
+        {pill3Data ? (
+          <Pill
+            text={pill3Data.text}
+            color={pill3Data.color}
+            useBackground={false}
+          />
+        ) : null}
       </View>
     </View>
   );
