@@ -19,7 +19,7 @@ import {
 } from "@/src/database/utils/userManager";
 import { User } from "@/src/database/models";
 import { useStore } from "zustand";
-import expenseTrackerStore from "@/src/store/expenceTracker";
+import expenseTrackerStore from "@/src/store/expenseTracker";
 
 const ProfileUpdateScreen: React.FC = () => {
   const router = useRouter();

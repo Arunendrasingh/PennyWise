@@ -22,21 +22,6 @@ const getMonthName = (id: number): string => {
   });
 };
 
-function formatMonth(date: Date): { key: string; label: string } {
-  if (!(date instanceof Date) || isNaN(date.getTime())) {
-    throw new Error(`Invalid Date: ${date}`);
-  }
-  const label = `${date.toLocaleString("default", {
-    month: "short",
-  })} ${date.getFullYear()}`;
-
-  const indexFormattedMonth = `${date.toLocaleString("default", {
-    month: "numeric",
-  })} ${date.getFullYear()}`;
-
-  return { key: indexFormattedMonth, label };
-}
-
 interface HorizontalMonthPickerProps {
   onSelectMonth: (month: string) => void;
 }
@@ -79,7 +64,7 @@ const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
 
     setMonths((prevMonths) => [...newMonths, ...prevMonths]);
 
-    // Ensure view doesn't shift after prependin
+    // Ensure view doesn't shift after prepending
     setTimeout(() => {
       if (listRef.current) {
         listRef.current.scrollToIndex({
@@ -109,14 +94,12 @@ const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
 
   // UseEffect to select the current date as selected
   React.useEffect(() => {
-
     const currentDate = new Date().toLocaleString("default", {
       month: "short",
       year: "numeric",
-    })
+    });
 
-    setSelectedMonth(currentDate)
-    
+    setSelectedMonth(currentDate);
   }, []);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -128,9 +111,9 @@ const HorizontalMonthPicker: React.FC<HorizontalMonthPickerProps> = ({
 
   const handleSelectMonth = (month: string) => {
     setSelectedMonth(month);
-    // if ((typeof onSelectMonth === "function")) {
-    //   console.log("Calling outside setFunction")
-    //   onSelectMonth(month);
+    // if (typeof onSelectMonth === "function") {
+    // console.log("Calling outside setFunction");
+    onSelectMonth(month);
     // }
   };
 

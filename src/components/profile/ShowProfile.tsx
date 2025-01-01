@@ -6,7 +6,7 @@ import { colorBlue, darkGray } from "@/src/constants/Colors";
 import { checkExistingUser } from "@/src/database/utils/userManager";
 import { User } from "@/src/database/models";
 import { useStore } from "zustand";
-import expenseTrackerStore from "@/src/store/expenceTracker";
+import expenseTrackerStore from "@/src/store/expenseTracker";
 
 const ShowProfile = (): JSX.Element => {
   // const [user, setUser] = useState<User | null>(null);

@@ -6,7 +6,7 @@ import { defaultColors } from "@/src/constants/Colors";
 import BudgetDetailsCard from "@/src/components/budgets/BudgetDetailsCard";
 import useBudgets from "@/src/hooks/useBudgets";
 import { BudgetType } from "@/src/config/types";
-import expenseTrackerStore from "@/src/store/expenceTracker";
+import expenseTrackerStore from "@/src/store/expenseTracker";
 import { useStore } from "zustand";
 
 type Budget = {

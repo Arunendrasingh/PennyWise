@@ -1,6 +1,7 @@
 import { ExpenseType } from "@/src/config/types";
 import { database } from "../database";
 import { Budget, Expense, User } from "../models";
+import { Q } from "@nozbe/watermelondb";
 /**
  * Create methods to insert new expense, update an exiting expense and delete an existing expense
  */
@@ -68,7 +69,6 @@ export async function createExpenseWithBudgetUpdate(
       expense.budget.set(budget);
     });
 
-
     if (!budget) {
       throw new Error("Budget not found");
     }
@@ -79,4 +79,28 @@ export async function createExpenseWithBudgetUpdate(
 
     return newExpense; // Return the created expense if needed
   });
+}
+
+// Load the expenses for specific user and between the given dates
+export async function loadExpenses(
+  userId: string,
+  startDate: Date,
+  endDate: Date
+): Promise<Expense[]> {
+  try {
+    const expense = database.get<Expense>("expenses");
+
+    const expenses = await expense
+      .query(
+        Q.where("user_id", userId),
+        Q.where("created_at", Q.gte(startDate)),
+        Q.where("created_at", Q.lte(endDate))
+      )
+      .fetch();
+
+    return expenses;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }

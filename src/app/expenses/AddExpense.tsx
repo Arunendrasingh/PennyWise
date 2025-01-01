@@ -9,7 +9,7 @@ import {
   createExpenseWithBudgetUpdate,
 } from "@/src/database/utils/expenseManager";
 import { ExpenseType } from "@/src/config/types";
-import expenseTrackerStore from "@/src/store/expenceTracker";
+import expenseTrackerStore from "@/src/store/expenseTracker";
 import { useStore } from "zustand";
 import { defaultColors } from "@/src/constants/Colors";
 import useBudgets from "@/src/hooks/useBudgets";
@@ -19,13 +19,13 @@ const AddTransactionScreen = () => {
 
   const { user } = useStore(expenseTrackerStore);
 
-  const budgets = useBudgets();
+  const budgets = useBudgets(0, 100);
   const initialValues: ExpenseType = {
     notes: "",
     amount: "",
     date: new Date(),
     budget_id: "",
-    user_id: user.id,
+    user_id: user?.id,
   };
 
   const validationSchema = Yup.object({

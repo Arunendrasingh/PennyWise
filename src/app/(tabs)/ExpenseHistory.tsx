@@ -20,7 +20,7 @@ const ExpenseHistory = () => {
 
       {/* Then other details will come from here */}
       <View>
-        <ExpenseHistoryView />
+        <ExpenseHistoryView selectedMonth={selectedMonth} />
       </View>
       {/* <Text>ExpenseHistory</Text> */}
     </SafeAreaView>

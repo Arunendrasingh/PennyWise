@@ -3,7 +3,7 @@ import { useNavigation, useRouter } from "expo-router";
 import { Stack } from "expo-router/stack";
 import { StyleSheet } from "react-native";
 import { useStore } from "zustand";
-import expenseTrackerStore from "../store/expenceTracker";
+import expenseTrackerStore from "../store/expenseTracker";
 import { checkExistingUser } from "../database/utils/userManager";
 import { defaultColors } from "../constants/Colors";
 import AddExpenseButton from "../components/AddExpenseButton";

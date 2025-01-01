@@ -7,7 +7,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import useCategories from "@/src/hooks/useCategories";
 // import { createBudget } from "@/src/database/utils/budgetManager"; // Replace with your budget creation function
-import expenseTrackerStore from "@/src/store/expenceTracker";
+import expenseTrackerStore from "@/src/store/expenseTracker";
 import { useStore } from "zustand";
 import { defaultColors } from "@/src/constants/Colors";
 import { createBudgets } from "@/src/database/utils/budgetManager";
