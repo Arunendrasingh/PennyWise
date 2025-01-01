@@ -1,50 +1,79 @@
-# Welcome to your Expo app 👋
+\# PennyWise - Personal Expense Tracker
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+[![React Native](https://img.shields.io/badge/React_Native-v0.71-blue)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-SDK--v49.0.6-green)](https://expo.dev/)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-## Get started
+**PennyWise** is an intuitive, mobile-first app designed to help you manage your personal finances. It provides features like personal expense tracking, budget management, shared expense handling, and real-time analytics through visual graphs and charts. PennyWise focuses on an offline-first approach so users can seamlessly track their expenses anytime, anywhere.
 
-1. Install dependencies
+## Table of Contents
 
-   ```bash
-   npm install
-   ```
+1. [Features](#features)
+2. [Technologies Used](#technologies-used)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Build and Deployment](#build-and-deployment)
+6. [Contributing](#contributing)
+7. [License](#license)
 
-2. Start the app
+## Features
 
-   ```bash
-    npx expo start
-   ```
+- **Expense Management**:
 
-In the output, you'll find options to open the app in a
+  - Add, edit, and delete expenses across categories (Food, Travel, Bills, etc.)
+  - Set up recurring expenses (like rent, utilities)
+  - Offline-first data storage: Track expenses without internet access
+  - Sync data to the cloud when online
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Budgeting**:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+  - Set and manage budgets for different categories
+  - Receive alerts when nearing or exceeding budget limits
 
-## Get a fresh project
+- **Expense Splitting**:
 
-When you're ready, run:
+  - Split bills with friends or groups
+  - Share expenses for events or trips and track what’s owed
 
+- **Visual Reports**:
+
+  - Graphs and charts to visualize spending patterns
+  - Monthly, weekly, or custom date range reports
+  - Filter by category, date, or tags
+
+- **Secure Data Management**:
+
+  - User authentication (Optional: Firebase/Auth0 integration)
+  - All sensitive data is encrypted
+
+- **Notifications**:
+  - Daily reminders to add expenses
+  - Alerts for overdue or unpaid shared expenses
+
+## Technologies Used
+
+- **Frontend**: [React Native](https://reactnative.dev/) (Managed Workflow)
+- **State Management**: React Context, Redux (optional)
+- **Backend**: FastAPI (For future integration)
+- **Offline Data Storage**: WatermelonDB (For future integration)
+- **Cloud Backend (Optional)**: Firebase(Current)
+- **Charts**: Victory Native, React Native Chart Kit
+- **Forms**: React Hook Form, Formik
+- **Authentication**: Firebase Auth, AppWrite Auth (Optional)
+
+## Installation
+
+### Prerequisites
+
+Before running the project, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/)
+OBOBOBOBOBOBOBOBOBOB- React Native CLI or Expo CLI
+OBOB- Git
+OBOBOB
+OBOB### Clone the repository:
+OBOBOB
 ```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+OBOBOBOBgit clone https://github.com/yourusername/pennywise.git
+OBOBOBOBOBOBcd pennywise
+OBOBOBOBOBOBOB```
