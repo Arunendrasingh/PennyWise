@@ -1,5 +1,9 @@
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
-  return <Stack />;
+
+  // Load the SplashScreen & hide
+  return <Stack screenOptions={
+    {headerShown: false}
+  } />;
 }
