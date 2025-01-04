@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
   },
   images: {
     flex: 1,
-    borderWidth: 1,
     justifyContent: "center",
   },
   singInContainer: {
