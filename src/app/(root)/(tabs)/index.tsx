@@ -1,19 +1,40 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Button, Alert } from "react-native";
 import { Link } from "expo-router";
 import { defaultColors } from "@/src/constant/Color";
 import HomeProfile from "@/src/components/HomeProfile";
+import { logout } from "@/src/lib/appwrite";
+import { useAuthContext } from "@/src/context/AuthContext";
 
 export default function Index() {
+  const { refetch } = useAuthContext();
+
+  async function handleLogout() {
+    const response = await logout();
+
+    if (response) {
+      Alert.alert("Success", "Logged out successfully");
+      refetch();
+    } else {
+      Alert.alert("Error", "Failed to logout");
+    }
+  }
+
   return (
-    <View
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <HomeProfile />
       <Link href={"/sign-in"}>Sign In</Link>
+
+      <View>
+        <Button
+          onPress={() => handleLogout()}
+          title="Logout"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+      </View>
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

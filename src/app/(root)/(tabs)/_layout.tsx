@@ -8,6 +8,7 @@ export default function TabLayout() {
     <Tabs screenOptions={{ tabBarActiveTintColor: defaultColors.paytmColors.lightBlue }}>
       <Tabs.Screen
         name="index"
+        
         options={{
           title: "Home",
           headerShown: false,

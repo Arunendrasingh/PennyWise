@@ -1,9 +1,38 @@
-import { Image, StyleSheet, Text, View, ImageBackground } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  Alert,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React from "react";
 import images from "../constant/images";
 import { defaultColors } from "../constant/Color";
+import { login } from "../lib/appwrite";
+import { useAuthContext } from "../context/AuthContext";
+import { Redirect } from "expo-router";
 
 const SignIn = () => {
+  const { loading, isLogged, refetch } = useAuthContext();
+
+  if (loading) return <ActivityIndicator size="large" color="#00ff00" />;
+
+  if (!loading && isLogged) {
+    return <Redirect href="/" />;
+  }
+
+  const handleLogin = async () => {
+    const result = await login();
+
+    if (result) {
+      refetch();
+    } else {
+      Alert.alert("Error", "Failed to Login");
+    }
+  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -12,10 +41,12 @@ const SignIn = () => {
         style={styles.images}
       >
         <View style={styles.singInContainer}>
-          <View style={styles.signInButton}>
-            <Image source={images.googleIcon} resizeMode="stretch" />
-            <Text style={styles.signInText}>Sign In with google</Text>
-          </View>
+          <TouchableOpacity onPress={() => handleLogin()}>
+            <View style={styles.signInButton}>
+              <Image source={images.googleIcon} resizeMode="stretch" />
+              <Text style={styles.signInText}>Sign In with google</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>
