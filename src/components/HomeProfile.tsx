@@ -2,17 +2,22 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import icons from "../constant/icons";
+import { useAuthContext } from "../context/AuthContext";
 
 const HomeProfile = () => {
+
+  const {user} = useAuthContext();
+
+  console.log(user);
   return (
     <View style={styles.profileContainer}>
       <View style={styles.profileImageContainer}>
-        <Image source={icons.Profile} style={styles.profileImage} />
+        <Image source={user?.avatar? {uri: user.avatar} :icons.Profile} style={styles.profileImage} />
         <View>
           <View style={styles.profileTextContainer}>
             <Text style={styles.profileText}>Hello</Text>
           </View>
-          <Text style={styles.normalText}>Dummy User</Text>
+          <Text style={styles.normalText}>{user?.name}</Text>
         </View>
       </View>
       <View style={styles.bellContainer}>
@@ -37,8 +42,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   profileImage: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     borderRadius: 25,
     marginRight: 10,
   },

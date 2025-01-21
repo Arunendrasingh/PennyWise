@@ -13,10 +13,11 @@ import images from "../constant/images";
 import { defaultColors } from "../constant/Color";
 import { login } from "../lib/appwrite";
 import { useAuthContext } from "../context/AuthContext";
-import { Redirect } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 
 const SignIn = () => {
   const { loading, isLogged, refetch } = useAuthContext();
+  const router = useRouter();
 
   if (loading) return <ActivityIndicator size="large" color="#00ff00" />;
 

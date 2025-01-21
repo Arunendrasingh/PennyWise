@@ -2,7 +2,7 @@ import * as Linking from "expo-linking";
 import { openAuthSessionAsync } from "expo-web-browser";
 import { Alert } from "react-native";
 import { Account, Avatars, Client, OAuthProvider } from "react-native-appwrite";
-import {makeRedirectUri} from 'expo-auth-session';
+import { makeRedirectUri } from "expo-auth-session";
 
 export const config = {
   platform: "com.its_dev.PennyWise",
@@ -24,8 +24,8 @@ const account = new Account(client);
 export async function login() {
   try {
     const redirectUrl = makeRedirectUri({
-      scheme: 'pennywise',
-      path: 'sign-in',
+      scheme: "pennywise",
+      path: "sign-in",
       preferLocalhost: true,
       isTripleSlashed: false,
     });
@@ -42,7 +42,7 @@ export async function login() {
       response.toString(),
       redirectUrl.toString()
     );
-    
+
     if (browserResult.type !== "success") {
       console.log("Failed to open browser");
       return "Failed to open browser";
@@ -102,7 +102,6 @@ export async function logout() {
 export const getCurrentUser = async () => {
   try {
     const user = await account.get();
-    console.log("Working", user);
     if (user.$id) {
       const userAvatar = avatar.getInitials(user.name);
 
